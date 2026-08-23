@@ -400,14 +400,18 @@
 
 
     .us-subnav {
-      position: sticky; top: 0; z-index: 50;
+      position: fixed; left: 0; right: 0; z-index: 90;
       display: flex; gap: 4px; padding: 8px 6px;
-      background: rgba(17, 24, 39, 0.92); backdrop-filter: blur(10px);
+      background: rgba(17, 24, 39, 0.95); backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid rgba(255,255,255,.08);
-      margin: -12px -12px 12px -12px; padding-left: 12px; padding-right: 12px;
+      padding-left: max(12px, env(safe-area-inset-left));
+      padding-right: max(12px, env(safe-area-inset-right));
       overflow-x: auto; -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      transition: top .2s ease;
     }
+    .subnav-spacer { display: block; height: 40px; }
     .us-subnav::-webkit-scrollbar { display: none; }
     .us-subnav-link {
       flex-shrink: 0;
@@ -963,6 +967,7 @@
   <div class="tab-page" id="page-us-stocks">
 
     <!-- 美股Tab吸顶子导航 -->
+    <div class="subnav-spacer"></div>
     <div class="us-subnav" id="usSubnav">
       <a href="#us-pulse" class="us-subnav-link active">🔥 市场脉搏</a>
       <a href="#us-sector-flow" class="us-subnav-link">🏭 板块资金</a>
@@ -2014,6 +2019,7 @@
 
     <div class="tab-page" id="page-a-shares">
     
+    <div class="subnav-spacer"></div>
     <div class="us-subnav" id="aSubnav">
       <a href="#a-pulse" class="us-subnav-link active">🔥 市场脉搏</a>
       <a href="#a-sector" class="us-subnav-link">🏭 行业资金</a>
@@ -4803,6 +4809,31 @@ function showToast(msg){
   t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 2000);
 }
+</script>
+<script>
+/* ── 子导航固定定位 ── */
+(function(){
+  function updateSubnavPos(){
+    var header = document.querySelector('.app-header');
+    var headerH = header ? header.offsetHeight : 0;
+    var subnavs = document.querySelectorAll('.us-subnav');
+    subnavs.forEach(function(sn){
+      sn.style.top = headerH + 'px';
+    });
+  }
+  // 初始设置 + 窗口变化时重算
+  updateSubnavPos();
+  window.addEventListener('resize', updateSubnavPos);
+  // 监听Tab切换，确保切换后也正确定位
+  document.querySelectorAll('.tab-btn, .top-tab-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){ setTimeout(updateSubnavPos, 100); });
+  });
+  // Header高度可能因top-tabs展开而变化，用ResizeObserver监听
+  if(window.ResizeObserver){
+    var header = document.querySelector('.app-header');
+    if(header) new ResizeObserver(updateSubnavPos).observe(header);
+  }
+})();
 </script>
 </body>
 </html>
