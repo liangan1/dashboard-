@@ -814,4 +814,123 @@ function makeLineChart(domId, dates, values, color, areaColor, yPrefix, ySuffix)
     },
     grid: baseGrid,
     xAxis:{ type:'category', boundaryGap:false, data:dates, ...axisStyle,
-      axisLabel:{ ...axisStyle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      axisLabel:{ ...axisStyle.axisLabel,
+        formatter: function(v) { return v.length>7 ? v.slice(5) : v; }
+      }
+    },
+    yAxis:{ type:'value', scale:true, ...axisStyle,
+      axisLabel:{ ...axisStyle.axisLabel,
+        formatter: function(v) { return yPrefix + v + ySuffix; }
+      }
+    },
+    series:[{
+      type:'line', smooth:true, symbol:'none', lineStyle:{ width:2, color:color },
+      itemStyle:{ color:color },
+      areaStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1,[
+        { offset:0, color:areaColor },
+        { offset:1, color:'rgba(0,0,0,0)' }
+      ])},
+      data: values,
+      markPoint: {
+        symbol:'pin', symbolSize:40,
+        label:{ fontSize:10, color:'#fff' },
+        data:[
+          { type:'max', name:'最高', itemStyle:{ color:'#ef4444' } },
+          { type:'min', name:'最低', itemStyle:{ color:'#10b981' } },
+        ]
+      }
+    }]
+  });
+  return chart;
+}
+
+let allCharts = [];
+let chartsInitialized = { bonds: false, commodities: false };
+
+// 初始化美债图表（含债务图）
+function initBondCharts() {
+  if (chartsInitialized.bonds) return;
+
+  const yieldIds = ["DGS2", "DGS5", "DGS10", "DGS30"];
+  yieldIds.forEach(sid => {
+    if (SERIES_DATA[sid]) {
+      const s = SERIES_DATA[sid];
+      allCharts.push(makeLineChart('chart_'+sid+'_1y', s.dates_all, s.values_all, s.color, s.color+'33', s.yPrefix, s.ySuffix));
+      allCharts.push(makeLineChart('chart_'+sid+'_30d', s.dates_recent, s.values_recent, s.color, s.color+'33', s.yPrefix, s.ySuffix));
+    }
+  });
+
+  // 债务图
+  const debtChart = echarts.init(document.getElementById('debtChart'), null, { renderer:'canvas' });
+  debtChart.setOption({
+    tooltip:{ trigger:'axis', ...tooltipStyle,
+      formatter: function(p) { const p0=p[0]; return p0.name+'<br/><b>'+p0.value+' 万亿美元</b>'; }
+    },
+    grid:{ left:'3%', right:'4%', bottom:'3%', top:'5%', containLabel:true },
+    xAxis:{ type:'category', data:DEBT_DATES, ...axisStyle,
+      axisLabel:{ ...axisStyle.axisLabel, formatter:function(v){ return v.slice(0,7); } }
+    },
+    yAxis:{ type:'value', ...axisStyle,
+      axisLabel:{ ...axisStyle.axisLabel, formatter:'{value}T' }
+    },
+    series:[{
+      type:'bar', barWidth:'50%',
+      itemStyle:{
+        color: new echarts.graphic.LinearGradient(0,0,0,1,[
+          { offset:0, color:'#f59e0b' },
+          { offset:1, color:'#78350f' }
+        ]),
+        borderRadius:[4,4,0,0]
+      },
+      data: DEBT_VALUES,
+    }]
+  });
+  allCharts.push(debtChart);
+
+  chartsInitialized.bonds = true;
+}
+
+// 初始化商品图表
+function initCommodityCharts() {
+  if (chartsInitialized.commodities) return;
+
+  ["CBBTCUSD", "GOLD", "DCOILWTICO", "DCOILBRENTEU"].forEach(cid => {
+    if (SERIES_DATA[cid]) {
+      const s = SERIES_DATA[cid];
+      allCharts.push(makeLineChart('chart_'+cid+'_1y', s.dates_all, s.values_all, s.color, s.color+'33', s.yPrefix, s.ySuffix));
+      allCharts.push(makeLineChart('chart_'+cid+'_30d', s.dates_recent, s.values_recent, s.color, s.color+'33', s.yPrefix, s.ySuffix));
+    }
+  });
+
+  chartsInitialized.commodities = true;
+}
+
+// Tab 切换逻辑
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    document.querySelectorAll('.tab-page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('page-' + target).classList.add('active');
+    btn.classList.add('active');
+
+    // 延迟初始化对应 Tab 的图表
+    if (target === 'bonds') initBondCharts();
+    if (target === 'commodities') initCommodityCharts();
+
+    // 已初始化的图表需要 resize
+    setTimeout(() => allCharts.forEach(c => c && c.resize && c.resize()), 50);
+  });
+});
+
+window.addEventListener('resize', () => allCharts.forEach(c => c && c.resize && c.resize()));
+
+// PWA Service Worker 注册
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+</body>
+</html>
