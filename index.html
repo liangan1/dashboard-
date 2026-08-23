@@ -18,24 +18,129 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
                  "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
     background: #0a0e17; color: #e5e7eb; min-height: 100vh;
-    padding: 24px;
-    padding-top: max(24px, env(safe-area-inset-top));
-    padding-bottom: max(24px, env(safe-area-inset-bottom));
-    padding-left: max(24px, env(safe-area-inset-left));
-    padding-right: max(24px, env(safe-area-inset-right));
+    padding-top: 0;
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+    padding-left: max(16px, env(safe-area-inset-left));
+    padding-right: max(16px, env(safe-area-inset-right));
   }
   .container { max-width: 1280px; margin: 0 auto; }
 
-  .header {
-    display:flex; justify-content:space-between; align-items:flex-end;
-    padding-bottom: 20px; border-bottom: 1px solid #1f2937; margin-bottom: 24px;
+  /* ===== 顶部 Header ===== */
+  .app-header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,23,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid #1f2937;
+    margin: 0 -16px 16px;
+    padding: 14px 16px 12px;
+    padding-top: max(14px, env(safe-area-inset-top));
   }
-  .header h1 { font-size: 24px; font-weight: 600; color: #f9fafb; }
-  .header h1 .accent { color: #3b82f6; }
-  .header .date { font-size: 14px; color: #9ca3af; }
+  .app-header-inner {
+    max-width: 1280px; margin: 0 auto;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .app-header h1 { font-size: 18px; font-weight: 600; color: #f9fafb; display:flex; align-items:center; gap:8px; }
+  .app-header h1 .accent { font-size: 22px; }
+  .app-header .date { font-size: 13px; color: #9ca3af; }
 
+  /* ===== Tab 页面 ===== */
+  .tab-page { display: none; padding-bottom: 16px; }
+  .tab-page.active { display: block; }
+
+  /* ===== 底部 Tab 栏 ===== */
+  .tab-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+    background: rgba(10,14,23,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-top: 1px solid #1f2937;
+    display: flex;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .tab-btn {
+    flex: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 8px 0 6px;
+    background: none; border: none;
+    color: #6b7280;
+    cursor: pointer;
+    transition: color 0.2s;
+    gap: 2px;
+  }
+  .tab-btn .tab-icon { font-size: 22px; line-height: 1; }
+  .tab-btn .tab-label { font-size: 11px; font-weight: 500; }
+  .tab-btn.active { color: #3b82f6; }
+  .tab-btn:active { opacity: 0.7; }
+
+  /* ===== 总览页 ===== */
+  .overview-date {
+    text-align: center;
+    padding: 20px 0 24px;
+  }
+  .overview-date .big-date {
+    font-size: 32px; font-weight: 700; color: #f9fafb;
+    font-variant-numeric: tabular-nums;
+  }
+  .overview-date .sub-date {
+    font-size: 13px; color: #6b7280; margin-top: 4px;
+  }
+  .section-subtitle {
+    font-size: 13px; font-weight: 600; color: #9ca3af;
+    margin: 16px 0 10px;
+    display: flex; align-items: center; gap: 8px;
+    letter-spacing: 0.5px;
+  }
+  .section-subtitle::before {
+    content: ''; width: 3px; height: 14px; border-radius: 2px;
+    background: #3b82f6;
+  }
+
+  .overview {
+    display:grid; grid-template-columns: repeat(2,1fr); gap:12px; margin-bottom:8px;
+  }
+  .ov-card {
+    background: linear-gradient(135deg,#111827,#0f172a);
+    border:1px solid #1f2937; border-radius:12px; padding:14px;
+  }
+  .ov-label { font-size:12px; color:#9ca3af; margin-bottom:6px; }
+  .ov-value { font-size:22px; font-weight:700; color:#f9fafb; font-variant-numeric:tabular-nums; }
+  .ov-chg { font-size:12px; margin-top:4px; }
+  .ov-chg.up { color:#10b981; }
+  .ov-chg.down { color:#ef4444; }
+  .ov-chg.flat { color:#9ca3af; }
+
+  /* 债务摘要卡片 */
+  .debt-summary-card {
+    background: linear-gradient(135deg,#111827,#0f172a);
+    border:1px solid #1f2937; border-radius:12px;
+    padding: 18px; margin-top: 8px;
+    border-top: 3px solid #f59e0b;
+  }
+  .debt-summary-title {
+    font-size: 13px; color: #9ca3af; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .debt-summary-title::before {
+    content: ''; width: 3px; height: 14px; border-radius: 2px;
+    background: #f59e0b;
+  }
+  .debt-summary-value {
+    font-size: 28px; font-weight: 700; color: #fbbf24;
+    font-variant-numeric: tabular-nums;
+  }
+  .debt-summary-unit {
+    font-size: 14px; color: #9ca3af; font-weight: 400; margin-left: 4px;
+  }
+  .debt-summary-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 8px; font-size: 12px; color: #6b7280;
+  }
+  .debt-yoy.up { color: #ef4444; font-weight: 600; }
+
+  /* ===== 分割线 ===== */
   .section-divider {
-    display:flex; align-items:center; gap:12px; margin: 28px 0 16px;
+    display:flex; align-items:center; gap:12px; margin: 24px 0 14px;
     color: #6b7280; font-size:13px; font-weight:600;
     letter-spacing: 1px; text-transform: uppercase;
   }
@@ -44,105 +149,142 @@
   }
   .section-divider span { padding: 0 8px; }
 
-  .overview {
-    display:grid; grid-template-columns: repeat(4,1fr); gap:16px; margin-bottom:28px;
-  }
-  .ov-card {
-    background: linear-gradient(135deg,#111827,#0f172a);
-    border:1px solid #1f2937; border-radius:12px; padding:18px;
-  }
-  .ov-label { font-size:13px; color:#9ca3af; margin-bottom:8px; }
-  .ov-value { font-size:28px; font-weight:700; color:#f9fafb; font-variant-numeric:tabular-nums; }
-  .ov-chg { font-size:13px; margin-top:6px; }
-  .ov-chg.up { color:#10b981; }
-  .ov-chg.down { color:#ef4444; }
-  .ov-chg.flat { color:#9ca3af; }
-
+  /* ===== 美债/商品详细区块 ===== */
   .tenor-block {
     background: linear-gradient(135deg,#111827 0%,#0f172a 100%);
     border:1px solid #1f2937; border-radius:12px;
-    padding:24px; margin-bottom:20px;
+    padding:18px; margin-bottom:16px;
   }
   .commodity-block {
     background: linear-gradient(135deg,#0f172a 0%,#1e1b4b 100%);
     border:1px solid #1f2937; border-radius:12px;
-    padding:24px; margin-bottom:20px;
+    padding:18px; margin-bottom:16px;
   }
   .tenor-header {
-    display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;
   }
-  .tenor-title { font-size:20px; font-weight:700; }
-  .tenor-yield { display:flex; align-items:baseline; gap:12px; }
-  .yield-num { font-size:36px; font-weight:700; color:#f9fafb; font-variant-numeric:tabular-nums; }
-  .yield-chg { font-size:15px; font-weight:600; display:flex; align-items:center; gap:4px; }
+  .tenor-title { font-size:18px; font-weight:700; }
+  .tenor-yield { display:flex; align-items:baseline; gap:10px; }
+  .yield-num { font-size:30px; font-weight:700; color:#f9fafb; font-variant-numeric:tabular-nums; }
+  .yield-chg { font-size:14px; font-weight:600; display:flex; align-items:center; gap:4px; }
   .yield-chg.up { color:#10b981; }
   .yield-chg.down { color:#ef4444; }
   .yield-chg.flat { color:#9ca3af; }
 
   .tenor-meta {
-    display:grid; grid-template-columns: repeat(4,1fr); gap:12px; margin-bottom:20px;
-    background: rgba(255,255,255,0.02); border-radius:8px; padding:14px;
+    display:grid; grid-template-columns: repeat(2,1fr); gap:10px; margin-bottom:14px;
+    background: rgba(255,255,255,0.02); border-radius:8px; padding:12px;
   }
-  .meta-item { display:flex; flex-direction:column; gap:4px; }
+  .meta-item { display:flex; flex-direction:column; gap:3px; }
   .meta-label { font-size:11px; color:#6b7280; text-transform:uppercase; letter-spacing:0.5px; }
-  .meta-val { font-size:16px; font-weight:600; color:#e5e7eb; font-variant-numeric:tabular-nums; }
+  .meta-val { font-size:15px; font-weight:600; color:#e5e7eb; font-variant-numeric:tabular-nums; }
   .meta-val.high { color:#ef4444; }
   .meta-val.low { color:#10b981; }
   .meta-date { font-size:11px; color:#6b7280; }
 
-  .tenor-charts { display:grid; grid-template-columns: 1fr 1fr; gap:16px; }
-  .chart-half { background: rgba(0,0,0,0.2); border-radius:8px; padding:14px; }
-  .chart-subtitle { font-size:13px; color:#9ca3af; margin-bottom:8px; font-weight:600; }
-  .chart-tall { width:100%; height:220px; }
+  .tenor-charts { display:grid; grid-template-columns: 1fr; gap:12px; }
+  .chart-half { background: rgba(0,0,0,0.2); border-radius:8px; padding:12px; }
+  .chart-subtitle { font-size:12px; color:#9ca3af; margin-bottom:6px; font-weight:600; }
+  .chart-tall { width:100%; height:200px; }
 
+  /* ===== 债务区块（美债 Tab 内） ===== */
   .debt-section {
     background: linear-gradient(135deg,#111827,#0f172a);
-    border:1px solid #1f2937; border-radius:12px; padding:24px; margin-bottom:20px;
+    border:1px solid #1f2937; border-radius:12px; padding:18px; margin-bottom:16px;
   }
-  .debt-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:20px; }
-  .debt-title { font-size:16px; font-weight:600; color:#f3f4f6; display:flex; align-items:center; gap:8px; }
-  .debt-title::before { content:''; width:3px; height:18px; background:#f59e0b; border-radius:2px; }
+  .debt-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+  .debt-title { font-size:15px; font-weight:600; color:#f3f4f6; display:flex; align-items:center; gap:8px; }
+  .debt-title::before { content:''; width:3px; height:16px; background:#f59e0b; border-radius:2px; }
   .debt-big-number { text-align:right; }
-  .debt-big-number .label { font-size:12px; color:#9ca3af; margin-bottom:4px; }
-  .debt-big-number .value { font-size:28px; font-weight:700; color:#fbbf24; font-variant-numeric:tabular-nums; }
-  .debt-big-number .unit { font-size:14px; color:#9ca3af; font-weight:400; margin-left:4px; }
-  .debt-big-number .yoy { font-size:13px; margin-top:4px; }
+  .debt-big-number .label { font-size:11px; color:#9ca3af; margin-bottom:3px; }
+  .debt-big-number .value { font-size:24px; font-weight:700; color:#fbbf24; font-variant-numeric:tabular-nums; }
+  .debt-big-number .unit { font-size:12px; color:#9ca3af; font-weight:400; margin-left:3px; }
+  .debt-big-number .yoy { font-size:12px; margin-top:3px; }
   .yoy.up { color:#ef4444; }
-  .debt-chart { height:200px; }
+  .debt-chart { height:180px; }
+
+  /* ===== 更多 Tab ===== */
+  .more-placeholder {
+    padding: 40px 20px;
+    text-align: center;
+  }
+  .more-placeholder h2 {
+    font-size: 18px; color: #f9fafb; margin-bottom: 8px;
+  }
+  .more-placeholder .more-sub {
+    font-size: 13px; color: #6b7280; margin-bottom: 28px;
+  }
+  .more-features {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+  }
+  .more-feature-card {
+    background: linear-gradient(135deg,#111827,#0f172a);
+    border: 1px solid #1f2937;
+    border-radius: 12px;
+    padding: 18px;
+    text-align: left;
+    opacity: 0.6;
+  }
+  .more-feature-card .feature-icon { font-size: 28px; margin-bottom: 8px; }
+  .more-feature-card .feature-name { font-size: 15px; font-weight: 600; color: #9ca3af; }
+  .more-feature-card .feature-status {
+    display: inline-block; margin-top: 6px;
+    font-size: 11px; color: #6b7280;
+    background: rgba(107,114,128,0.15);
+    padding: 3px 8px; border-radius: 4px;
+  }
 
   .footer {
     text-align:center; font-size:12px; color:#6b7280;
-    padding-top:16px; border-top:1px solid #1f2937;
-    line-height: 1.8;
+    padding: 16px 0 8px; border-top:1px solid #1f2937;
+    line-height: 1.8; margin-top: 8px;
   }
   .footer a { color:#6b7280; text-decoration:none; }
   .footer a:hover { color:#3b82f6; }
 
-  @media (max-width: 900px) {
-    .overview { grid-template-columns: repeat(2,1fr); }
-    .tenor-meta { grid-template-columns: repeat(2,1fr); }
-    .tenor-charts { grid-template-columns: 1fr; }
+  /* ===== 桌面端响应式 ===== */
+  @media (min-width: 900px) {
+    body {
+      padding-left: max(24px, env(safe-area-inset-left));
+      padding-right: max(24px, env(safe-area-inset-right));
+    }
+    .app-header { margin: 0 -24px 24px; padding: 16px 24px 14px; }
+    .overview { grid-template-columns: repeat(4,1fr); gap: 16px; }
+    .ov-card { padding: 18px; }
+    .ov-value { font-size: 28px; }
+    .tenor-meta { grid-template-columns: repeat(4,1fr); gap: 12px; }
+    .tenor-charts { grid-template-columns: 1fr 1fr; gap: 16px; }
+    .tenor-block, .commodity-block, .debt-section { padding: 24px; }
+    .yield-num { font-size: 36px; }
+    .more-features { grid-template-columns: repeat(2,1fr); }
   }
   @media (max-width: 480px) {
-    body { padding: 12px; }
-    .overview { grid-template-columns: 1fr; }
-    .tenor-meta { grid-template-columns: 1fr 1fr; }
-    .yield-num { font-size:28px; }
-    .header h1 { font-size: 18px; }
+    .overview-date .big-date { font-size: 26px; }
+    .yield-num { font-size: 26px; }
+    .tenor-title { font-size: 16px; }
   }
 </style>
 </head>
 <body>
-<div class="container">
-
-  <header class="header">
-    <h1><span class="accent">🌍</span> 全球资产每日看板</h1>
-    <div class="date">2026-08-23</div>
+  <!-- 顶部 Header -->
+  <header class="app-header">
+    <div class="app-header-inner">
+      <h1><span class="accent">🌍</span> 全球资产看板</h1>
+      <div class="date">2026-08-23</div>
+    </div>
   </header>
 
-  <div class="section-divider"><span>🇺🇸 美债收益率</span></div>
+<div class="container">
 
-  <section class="overview">
+  <!-- Tab 1: 总览 -->
+  <div class="tab-page active" id="page-overview">
+    <div class="overview-date">
+      <div class="big-date">2026-08-23</div>
+      <div class="sub-date">每日资产数据速览</div>
+    </div>
+
+    <div class="section-subtitle">🇺🇸 美债收益率</div>
+    <section class="overview">
             <div class="ov-card" style="border-top: 3px solid #00d4ff;">
               <div class="ov-label">2年期</div>
               <div class="ov-value">4.19%</div>
@@ -163,9 +305,60 @@
               <div class="ov-value">5.23%</div>
               <div class="ov-chg up">+4.00 bp</div>
             </div>
-  </section>
+    </section>
 
-  
+    <div class="section-subtitle">💰 大宗商品</div>
+    <section class="overview">
+            <div class="ov-card" style="border-top: 3px solid #f7931a;">
+              <div class="ov-label">比特币</div>
+              <div class="ov-value">$77,118</div>
+              <div class="ov-chg down">-1.29%</div>
+            </div>
+            <div class="ov-card" style="border-top: 3px solid #ffd700;">
+              <div class="ov-label">黄金</div>
+              <div class="ov-value">$4,604</div>
+              <div class="ov-chg flat">+0.00%</div>
+            </div>
+            <div class="ov-card" style="border-top: 3px solid #8b5cf6;">
+              <div class="ov-label">原油WTI</div>
+              <div class="ov-value">$86.48</div>
+              <div class="ov-chg up">+0.51%</div>
+            </div>
+            <div class="ov-card" style="border-top: 3px solid #06b6d4;">
+              <div class="ov-label">布伦特原油</div>
+              <div class="ov-value">$95.29</div>
+              <div class="ov-chg up">+3.09%</div>
+            </div>
+    </section>
+
+    <div class="section-subtitle">🏛️ 联邦债务</div>
+    
+    <div class="debt-summary-card">
+      <div class="debt-summary-title">联邦政府债务</div>
+      <div class="debt-summary-value">
+        39.07<span class="debt-summary-unit">万亿美元</span>
+      </div>
+      <div class="debt-summary-meta">
+        <span>最新季度：2026-01-01</span>
+        <span class="debt-yoy up">同比 +7.87%</span>
+      </div>
+    </div>
+
+    <footer class="footer">
+      数据来源：
+      <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener noreferrer">FRED</a>
+      （美债收益率 DGS2/DGS5/DGS10/DGS30 · 联邦债务 GFDEBTN · 比特币 CBBTCUSD · 原油 DCOILWTICO/DCOILBRENTEU）
+      <br>
+      黄金价格：
+      <a href="https://metals.dev/" target="_blank" rel="noopener noreferrer">metals.dev</a> /
+      <a href="https://gold-api.com/" target="_blank" rel="noopener noreferrer">gold-api.com</a>
+    </footer>
+  </div>
+
+  <!-- Tab 2: 美债 -->
+  <div class="tab-page" id="page-bonds">
+    <div class="section-divider"><span>🇺🇸 美债收益率</span></div>
+    
         <section class="tenor-block" style="border-left: 4px solid #00d4ff;">
           <div class="tenor-header">
             <div class="tenor-title" style="color: #00d4ff;">2年期 美债</div>
@@ -335,32 +528,27 @@
         </section>
         
 
-  <div class="section-divider"><span>💰 大宗商品</span></div>
+    <div class="section-divider"><span>🏛️ 联邦债务</span></div>
+    <section class="debt-section">
+      <div class="debt-header">
+        <div class="debt-title">联邦政府债务总额（GFDEBTN，季度）</div>
+        <div class="debt-big-number">
+          <div class="label">最新季度（2026-01-01）</div>
+          <div class="value">39.07<span class="unit">万亿美元</span></div>
+          <div class="yoy up">同比 +7.87%</div>
+        </div>
+      </div>
+      <div class="debt-note" style="font-size:12px;color:#6b7280;margin-bottom:12px;">
+        注：FRED 不提供按期限拆分的美债未偿余额日频数据，按期限规模数据需参考 TreasuryDirect 月度公告。此处展示联邦总公共债务。
+      </div>
+      <div id="debtChart" class="debt-chart"></div>
+    </section>
+  </div>
 
-  <section class="overview">
-            <div class="ov-card" style="border-top: 3px solid #f7931a;">
-              <div class="ov-label">比特币</div>
-              <div class="ov-value">$77,118</div>
-              <div class="ov-chg down">-1.29%</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #ffd700;">
-              <div class="ov-label">黄金</div>
-              <div class="ov-value">$4,604</div>
-              <div class="ov-chg flat">+0.00%</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #8b5cf6;">
-              <div class="ov-label">原油WTI</div>
-              <div class="ov-value">$86.48</div>
-              <div class="ov-chg up">+0.51%</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #06b6d4;">
-              <div class="ov-label">布伦特原油</div>
-              <div class="ov-value">$95.29</div>
-              <div class="ov-chg up">+3.09%</div>
-            </div>
-  </section>
-
-  
+  <!-- Tab 3: 商品 -->
+  <div class="tab-page" id="page-commodities">
+    <div class="section-divider"><span>💰 大宗商品</span></div>
+    
         <section class="commodity-block" style="border-left: 4px solid #f7931a;">
           <div class="tenor-header">
             <div class="tenor-title" style="color: #f7931a;">比特币（BTC/USD）</div>
@@ -535,33 +723,69 @@
             
         </section>
         
+  </div>
 
-  <section class="debt-section">
-    <div class="debt-header">
-      <div class="debt-title">联邦政府债务总额（GFDEBTN，季度）</div>
-      <div class="debt-big-number">
-        <div class="label">最新季度（2026-01-01）</div>
-        <div class="value">39.07<span class="unit">万亿美元</span></div>
-        <div class="yoy up">同比 +7.87%</div>
+  <!-- Tab 4: 更多 -->
+  <div class="tab-page" id="page-more">
+    <div class="more-placeholder">
+      <h2>即将推出</h2>
+      <p class="more-sub">更多功能正在开发中，敬请期待</p>
+      <div class="more-features">
+        <div class="more-feature-card">
+          <div class="feature-icon">💸</div>
+          <div class="feature-name">资金走势</div>
+          <div class="feature-status">敬请期待</div>
+        </div>
+        <div class="more-feature-card">
+          <div class="feature-icon">📈</div>
+          <div class="feature-name">个股表现</div>
+          <div class="feature-status">敬请期待</div>
+        </div>
+        <div class="more-feature-card">
+          <div class="feature-icon">📊</div>
+          <div class="feature-name">13F 持仓</div>
+          <div class="feature-status">敬请期待</div>
+        </div>
+        <div class="more-feature-card">
+          <div class="feature-icon">📅</div>
+          <div class="feature-name">宏观日历</div>
+          <div class="feature-status">敬请期待</div>
+        </div>
       </div>
     </div>
-    <div class="debt-note" style="font-size:12px;color:#6b7280;margin-bottom:12px;">
-      注：FRED 不提供按期限拆分的美债未偿余额日频数据，按期限规模数据需参考 TreasuryDirect 月度公告。此处展示联邦总公共债务。
-    </div>
-    <div id="debtChart" class="debt-chart"></div>
-  </section>
 
-  <footer class="footer">
-    数据来源：
-    <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener noreferrer">FRED</a>
-    （美债收益率 DGS2/DGS5/DGS10/DGS30 · 联邦债务 GFDEBTN · 比特币 CBBTCUSD · 原油 DCOILWTICO/DCOILBRENTEU）
-    <br>
-    黄金价格：
-    <a href="https://metals.dev/" target="_blank" rel="noopener noreferrer">metals.dev</a> /
-    <a href="https://gold-api.com/" target="_blank" rel="noopener noreferrer">gold-api.com</a>
-  </footer>
+    <footer class="footer">
+      数据来源：
+      <a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener noreferrer">FRED</a>
+      （美债收益率 DGS2/DGS5/DGS10/DGS30 · 联邦债务 GFDEBTN · 比特币 CBBTCUSD · 原油 DCOILWTICO/DCOILBRENTEU）
+      <br>
+      黄金价格：
+      <a href="https://metals.dev/" target="_blank" rel="noopener noreferrer">metals.dev</a> /
+      <a href="https://gold-api.com/" target="_blank" rel="noopener noreferrer">gold-api.com</a>
+    </footer>
+  </div>
 
 </div>
+
+<!-- 底部 Tab 栏 -->
+<nav class="tab-bar">
+  <button class="tab-btn active" data-tab="overview">
+    <span class="tab-icon">📊</span>
+    <span class="tab-label">总览</span>
+  </button>
+  <button class="tab-btn" data-tab="bonds">
+    <span class="tab-icon">🇺🇸</span>
+    <span class="tab-label">美债</span>
+  </button>
+  <button class="tab-btn" data-tab="commodities">
+    <span class="tab-icon">💰</span>
+    <span class="tab-label">商品</span>
+  </button>
+  <button class="tab-btn" data-tab="more">
+    <span class="tab-icon">⚙️</span>
+    <span class="tab-label">更多</span>
+  </button>
+</nav>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
 <script>
@@ -590,78 +814,4 @@ function makeLineChart(domId, dates, values, color, areaColor, yPrefix, ySuffix)
     },
     grid: baseGrid,
     xAxis:{ type:'category', boundaryGap:false, data:dates, ...axisStyle,
-      axisLabel:{ ...axisStyle.axisLabel,
-        formatter: function(v) { return v.length>7 ? v.slice(5) : v; }
-      }
-    },
-    yAxis:{ type:'value', scale:true, ...axisStyle,
-      axisLabel:{ ...axisStyle.axisLabel,
-        formatter: function(v) { return yPrefix + v + ySuffix; }
-      }
-    },
-    series:[{
-      type:'line', smooth:true, symbol:'none', lineStyle:{ width:2, color:color },
-      itemStyle:{ color:color },
-      areaStyle:{ color: new echarts.graphic.LinearGradient(0,0,0,1,[
-        { offset:0, color:areaColor },
-        { offset:1, color:'rgba(0,0,0,0)' }
-      ])},
-      data: values,
-      markPoint: {
-        symbol:'pin', symbolSize:40,
-        label:{ fontSize:10, color:'#fff' },
-        data:[
-          { type:'max', name:'最高', itemStyle:{ color:'#ef4444' } },
-          { type:'min', name:'最低', itemStyle:{ color:'#10b981' } },
-        ]
-      }
-    }]
-  });
-  return chart;
-}
-
-const charts = [];
-Object.keys(SERIES_DATA).forEach(sid => {
-  const s = SERIES_DATA[sid];
-  charts.push(makeLineChart('chart_'+sid+'_1y', s.dates_all, s.values_all, s.color, s.color+'33', s.yPrefix, s.ySuffix));
-  charts.push(makeLineChart('chart_'+sid+'_30d', s.dates_recent, s.values_recent, s.color, s.color+'33', s.yPrefix, s.ySuffix));
-});
-
-// 债务图
-const debtChart = echarts.init(document.getElementById('debtChart'), null, { renderer:'canvas' });
-debtChart.setOption({
-  tooltip:{ trigger:'axis', ...tooltipStyle,
-    formatter: function(p) { const p0=p[0]; return p0.name+'<br/><b>'+p0.value+' 万亿美元</b>'; }
-  },
-  grid:{ left:'3%', right:'4%', bottom:'3%', top:'5%', containLabel:true },
-  xAxis:{ type:'category', data:DEBT_DATES, ...axisStyle,
-    axisLabel:{ ...axisStyle.axisLabel, formatter:function(v){ return v.slice(0,7); } }
-  },
-  yAxis:{ type:'value', ...axisStyle,
-    axisLabel:{ ...axisStyle.axisLabel, formatter:'{value}T' }
-  },
-  series:[{
-    type:'bar', barWidth:'50%',
-    itemStyle:{
-      color: new echarts.graphic.LinearGradient(0,0,0,1,[
-        { offset:0, color:'#f59e0b' },
-        { offset:1, color:'#78350f' }
-      ]),
-      borderRadius:[4,4,0,0]
-    },
-    data: DEBT_VALUES,
-  }]
-});
-charts.push(debtChart);
-
-window.addEventListener('resize', () => charts.forEach(c => c.resize()));
-
-// PWA Service Worker 注册
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-</script>
-</body>
-</html>
+      axisLabel:{ ...axisStyle                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
