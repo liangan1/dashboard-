@@ -56,23 +56,7 @@
   .header-btn.spin { animation: hdr-spin .6s linear; }
   @keyframes hdr-spin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
 
-  /* ===== 顶部快捷Tab条 ===== */
-  .top-tabs {
-    display: flex; gap: 2px; margin-top: 10px; padding-top: 8px;
-    border-top: 1px solid rgba(255,255,255,.06);
-    overflow-x: auto; -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .top-tabs::-webkit-scrollbar { display: none; }
-  .top-tab-btn {
-    flex-shrink: 0;
-    padding: 5px 12px; font-size: 12px; font-weight: 500;
-    border-radius: 16px; border: none; cursor: pointer;
-    background: transparent; color: #6b7280;
-    transition: all .2s;
-  }
-  .top-tab-btn.active { background: rgba(59,130,246,.2); color: #60a5fa; }
-  .top-tab-btn:not(.active):hover { color: #d1d5db; }
+
 
   /* ===== Toast 提示 ===== */
   .toast {
@@ -440,13 +424,7 @@
         </div>
       </div>
     </div>
-    <div class="top-tabs" id="top-tabs">
-      <button class="top-tab-btn active" data-tab="overview">📊 总览</button>
-      <button class="top-tab-btn" data-tab="bonds">🇺🇸 美债</button>
-      <button class="top-tab-btn" data-tab="commodities">💰 商品</button>
-      <button class="top-tab-btn" data-tab="us-stocks">🇺🇸 美股</button>
-      <button class="top-tab-btn" data-tab="a-shares">🇨🇳 A股</button>
-    </div>
+
   </header>
 
 <div class="container">
@@ -4725,32 +4703,7 @@ if ('serviceWorker' in navigator) {
     </script>
 
 <script>
-/* ── 顶部Tab快捷切换 ── */
-(function(){
-  var topTabs = document.querySelectorAll('#top-tabs .top-tab-btn');
-  var bottomTabs = document.querySelectorAll('.tab-btn');
-  topTabs.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var tab = btn.dataset.tab;
-      // 触发底部Tab切换逻辑
-      bottomTabs.forEach(function(b){ if(b.dataset.tab===tab) b.click(); });
-    });
-  });
-  // 同步高亮
-  function syncTopTab(){
-    var active = document.querySelector('.tab-btn.active');
-    if(!active) return;
-    var tab = active.dataset.tab;
-    topTabs.forEach(function(b){
-      b.classList.toggle('active', b.dataset.tab === tab);
-    });
-  }
-  // 每次Tab切换后同步
-  var origClick = HTMLElement.prototype.click;
-  bottomTabs.forEach(function(btn){
-    btn.addEventListener('click', function(){ setTimeout(syncTopTab, 50); });
-  });
-})();
+
 
 /* ── 刷新按钮 ── */
 document.getElementById('btn-refresh').addEventListener('click', function(){
@@ -4825,10 +4778,10 @@ function showToast(msg){
   updateSubnavPos();
   window.addEventListener('resize', updateSubnavPos);
   // 监听Tab切换，确保切换后也正确定位
-  document.querySelectorAll('.tab-btn, .top-tab-btn').forEach(function(btn){
+  document.querySelectorAll('.tab-btn').forEach(function(btn){
     btn.addEventListener('click', function(){ setTimeout(updateSubnavPos, 100); });
   });
-  // Header高度可能因top-tabs展开而变化，用ResizeObserver监听
+  // Header高度可能因变化时重算子导航位置
   if(window.ResizeObserver){
     var header = document.querySelector('.app-header');
     if(header) new ResizeObserver(updateSubnavPos).observe(header);
