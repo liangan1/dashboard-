@@ -359,6 +359,29 @@
   .vbar{height:4px;border-radius:2px;background:linear-gradient(90deg,#22c55e,#eab308,#f97316,#ef4444);margin-top:8px;position:relative}
   .vmark{position:absolute;top:-3px;width:2px;height:10px;background:#fff;border-radius:1px;transform:translateX(-50%)}
 
+
+    .us-subnav {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; gap: 4px; padding: 8px 6px;
+      background: rgba(17, 24, 39, 0.92); backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      margin: -12px -12px 12px -12px; padding-left: 12px; padding-right: 12px;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .us-subnav::-webkit-scrollbar { display: none; }
+    .us-subnav-link {
+      flex-shrink: 0;
+      padding: 6px 12px; font-size: 12px; font-weight: 500;
+      color: #9ca3af; text-decoration: none; border-radius: 6px;
+      white-space: nowrap; transition: all .15s;
+    }
+    .us-subnav-link:hover { background: rgba(255,255,255,.08); color: #e5e7eb; }
+    .us-subnav-link.active { background: rgba(59,130,246,.2); color: #60a5fa; }
+    @media (max-width: 640px) {
+      .us-subnav-link { padding: 5px 10px; font-size: 11px; }
+    }
+
 </style>
 </head>
 <body>
@@ -886,55 +909,572 @@
 
   <!-- Tab 4: 美股 -->
   <div class="tab-page" id="page-us-stocks">
-    <div class="section-divider"><span>📈 美股三大指数</span></div>
-    <div class="us-rt-time">数据更新: 2026-08-21 16:41:57 · 历史数据: 新浪财经 · 实时行情: 腾讯财经</div>
 
-    <section class="overview">
+    <!-- 美股Tab吸顶子导航 -->
+    <div class="us-subnav" id="usSubnav">
+      <a href="#us-pulse" class="us-subnav-link active">🔥 市场脉搏</a>
+      <a href="#us-sector-flow" class="us-subnav-link">🏭 板块资金</a>
+      <a href="#us-fund-flow" class="us-subnav-link">💰 个股资金</a>
+      <a href="#us-sector-etf" class="us-subnav-link">📊 ETF</a>
+      <a href="#us-charts" class="us-subnav-link">📈 指数走势</a>
+      <a href="#us-stocks" class="us-subnav-link">🏢 个股</a>
+    </div>
 
-            <div class="ov-card" style="border-top: 3px solid #3b82f6;">
-              <div class="ov-label">道琼斯</div>
-              <div class="ov-value">53,277</div>
-              <div class="ov-chg up">▲518 (+0.98%)</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #10b981;">
-              <div class="ov-label">纳斯达克</div>
-              <div class="ov-value">26,180</div>
-              <div class="ov-chg up">▲113 (+0.43%)</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #f59e0b;">
-              <div class="ov-label">标普500</div>
-              <div class="ov-value">7,674</div>
-              <div class="ov-chg up">▲33 (+0.43%)</div>
-            </div>
-            <div class="ov-card" style="border-top: 3px solid #ef4444;">
-              <div class="ov-label">费城半导体</div>
-              <div class="ov-value">11,740</div>
-              <div class="ov-chg down">▼60 (-0.51%)</div>
-            </div>
-    </section>
-
-    <div class="section-subtitle">😱 VIX 恐慌指数</div>
-    <div class="vix-card">
-      <div class="vix-header">
-        <div class="vix-title">CBOE 波动率指数 (VIX)</div>
-        <div class="vix-big">
-          <div class="vix-val">21.67</div>
-          <div class="vix-level" style="color:#f59e0b">偏高</div>
+    <!-- 一屏可见的市场脉搏 -->
+    <div id="us-pulse" style="scroll-margin-top:60px">
+      <div class="section-divider"><span>🔥 市场脉搏</span></div>
+      <div class="us-rt-time">数据更新: 2026-08-23 · 延时约3分钟 · 1400只标的聚合</div>
+      
+      <!-- 核心指数 + VIX 横向条 -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
+        <div class="ov-card" style="border-top:3px solid #3b82f6;padding:10px">
+          <div class="ov-label" style="font-size:11px">道琼斯</div>
+          <div class="ov-value" style="font-size:18px">53,277</div>
+          <div class="ov-chg up" style="font-size:12px">▲0.98%</div>
+        </div>
+        <div class="ov-card" style="border-top:3px solid #10b981;padding:10px">
+          <div class="ov-label" style="font-size:11px">纳斯达克</div>
+          <div class="ov-value" style="font-size:18px">26,180</div>
+          <div class="ov-chg up" style="font-size:12px">▲0.43%</div>
+        </div>
+        <div class="ov-card" style="border-top:3px solid #f59e0b;padding:10px">
+          <div class="ov-label" style="font-size:11px">标普500</div>
+          <div class="ov-value" style="font-size:18px">7,674</div>
+          <div class="ov-chg up" style="font-size:12px">▲0.43%</div>
+        </div>
+        <div class="ov-card" style="border-top:3px solid #ef4444;padding:10px">
+          <div class="ov-label" style="font-size:11px">费半</div>
+          <div class="ov-value" style="font-size:18px">11,740</div>
+          <div class="ov-chg down" style="font-size:12px">▼0.51%</div>
+        </div>
+        <div class="ov-card" style="border-top:3px solid #f59e0b;padding:10px;background:rgba(245,158,11,.05)">
+          <div class="ov-label" style="font-size:11px">😱 VIX</div>
+          <div class="ov-value" style="font-size:18px;color:#f59e0b">21.67</div>
+          <div class="ov-chg" style="font-size:12px;color:#f59e0b">偏高</div>
         </div>
       </div>
-      <div class="vix-gauge">
-        <div class="vix-gauge-bar">
-          <div class="vix-gauge-marker" style="left:38.9%"></div>
+      
+      <!-- 板块资金热力图 -->
+      <div style="font-size:13px;font-weight:600;color:#9ca3af;margin-bottom:8px;padding-left:2px">行业板块资金热力图（主力净流入 亿元）</div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px">
+        <div style="background:#ef44447a;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="信息技术: +13.35亿, 147涨94跌, 均涨幅+0.93%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">信息技术</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+13.35</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 147↑94↓</div>
+    </div><div style="background:#ef44443c;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="通讯服务: +5.28亿, 16涨4跌, 均涨幅+1.26%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">通讯服务</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+5.28</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 16↑4↓</div>
+    </div><div style="background:#ef44441c;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="房地产: +1.11亿, 24涨33跌, 均涨幅-0.08%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">房地产</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+1.11</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 24↑33↓</div>
+    </div><div style="background:#ef44441b;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="工业: +0.98亿, 167涨80跌, 均涨幅+0.87%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">工业</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+0.98</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 167↑80↓</div>
+    </div><div style="background:#ef44441b;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="原材料: +0.97亿, 71涨16跌, 均涨幅+2.33%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">原材料</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+0.97</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 71↑16↓</div>
+    </div><div style="background:#ef44441b;border:1px solid #ef444444;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="医疗保健: +0.90亿, 129涨47跌, 均涨幅+2.10%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">医疗保健</div>
+      <div style="font-size:15px;font-weight:700;color:#ef4444">+0.90</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 129↑47↓</div>
+    </div><div style="background:#22c55e34;border:1px solid #22c55e44;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="非日常生活消费品: -4.14亿, 129涨46跌, 均涨幅+1.56%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">非日常生活消费品</div>
+      <div style="font-size:15px;font-weight:700;color:#22c55e">-4.14</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 129↑46↓</div>
+    </div><div style="background:#22c55e21;border:1px solid #22c55e44;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="日常消费品: -1.71亿, 45涨12跌, 均涨幅+0.86%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">日常消费品</div>
+      <div style="font-size:15px;font-weight:700;color:#22c55e">-1.71</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 45↑12↓</div>
+    </div><div style="background:#22c55e16;border:1px solid #22c55e44;border-radius:8px;padding:8px 10px;text-align:center;cursor:default" title="金融: -0.27亿, 153涨44跌, 均涨幅+3.19%">
+      <div style="font-size:11px;color:#9ca3af;margin-bottom:2px">金融</div>
+      <div style="font-size:15px;font-weight:700;color:#22c55e">-0.27</div>
+      <div style="font-size:10px;color:#6b7280">亿 · 153↑44↓</div>
+    </div>
+      </div>
+      
+      <!-- 资金速览：流入TOP3 / 流出TOP3 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:8px;padding:10px">
+          <div style="font-size:12px;font-weight:600;color:#ef4444;margin-bottom:6px">🔴 资金流入前三行业</div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>信息技术 (147↑94↓)</span><span style="color:#ef4444;font-weight:600">+13.35亿</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>通讯服务 (16↑4↓)</span><span style="color:#ef4444;font-weight:600">+5.28亿</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>房地产 (24↑33↓)</span><span style="color:#ef4444;font-weight:600">+1.11亿</span></div>
         </div>
-        <div class="vix-gauge-labels">
-          <span>10 极度贪婪</span>
-          <span>20 中性</span>
-          <span>30 恐慌</span>
-          <span>40+ 极度恐慌</span>
+        <div style="background:rgba(34,197,94,.05);border:1px solid rgba(34,197,94,.15);border-radius:8px;padding:10px">
+          <div style="font-size:12px;font-weight:600;color:#22c55e;margin-bottom:6px">🟢 资金流出前三行业</div>
+          <div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>非日常生活消费品 (129↑46↓)</span><span style="color:#22c55e;font-weight:600">-4.14亿</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>日常消费品 (45↑12↓)</span><span style="color:#22c55e;font-weight:600">-1.71亿</span></div><div style="display:flex;justify-content:space-between;padding:3px 0;font-size:12px"><span>金融 (153↑44↓)</span><span style="color:#22c55e;font-weight:600">-0.27亿</span></div>
         </div>
       </div>
     </div>
 
+    <div id="us-sector-flow-anchor" style="scroll-margin-top:60px"></div>
+    
+    <div class="section-divider" id="us-sector-flow"><span>🏭 行业板块资金流向</span></div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:10px">基于1400只美股按行业聚合 · 数据源：东方财富（延时约3分钟）· 更新：2026-08-23</div>
+    
+    <!-- Market flow summary cards -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px">
+      <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px">
+        <div style="font-size:11px;color:#9ca3af">主力净流入合计</div>
+        <div style="font-size:20px;font-weight:700;color:#ef4444">+23.48亿</div>
+        <div style="font-size:10px;color:#6b7280">9个行业流入</div>
+      </div>
+      <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:10px">
+        <div style="font-size:11px;color:#9ca3af">主力净流出合计</div>
+        <div style="font-size:20px;font-weight:700;color:#22c55e">-6.12亿</div>
+        <div style="font-size:10px;color:#6b7280">3个行业流出</div>
+      </div>
+      <div style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:10px">
+        <div style="font-size:11px;color:#9ca3af">市场总成交额</div>
+        <div style="font-size:20px;font-weight:700;color:#60a5fa">6079亿</div>
+        <div style="font-size:10px;color:#6b7280">1400只标的</div>
+      </div>
+      <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px">
+        <div style="font-size:11px;color:#9ca3af">涨跌家数</div>
+        <div style="font-size:20px;font-weight:700"><span style="color:#ef4444">928↑</span> <span style="color:#22c55e">464↓</span></div>
+        <div style="font-size:10px;color:#6b7280">全市场</div>
+      </div>
+    </div>
+    
+    <!-- Fund size breakdown -->
+    <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+      <div style="flex:1;min-width:120px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:#6b7280">超大单净额</div>
+        <div style="font-size:15px;font-weight:600;color:#ef4444">+14.86亿</div>
+      </div>
+      <div style="flex:1;min-width:120px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:#6b7280">大单净额</div>
+        <div style="font-size:15px;font-weight:600;color:#ef4444">+2.48亿</div>
+      </div>
+      <div style="flex:1;min-width:120px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:#6b7280">中单净额</div>
+        <div style="font-size:15px;font-weight:600;color:#ef4444">+29.32亿</div>
+      </div>
+      <div style="flex:1;min-width:120px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
+        <div style="font-size:10px;color:#6b7280">小单净额</div>
+        <div style="font-size:15px;font-weight:600;color:#ef4444">+24.78亿</div>
+      </div>
+    </div>
+    
+    <table class="ftab" style="width:100%">
+      <thead><tr><th>行业</th><th>主力净流入</th><th style="text-align:right">成交额</th><th style="text-align:right">均涨幅</th><th>领涨/资金龙头</th></tr></thead>
+      <tbody><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">信息技术</span><div style="font-size:10px;color:#6b7280">243只 · 147涨94跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:100.0%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+13.35亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">2299亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+0.93%</span></td>
+      <td style="font-size:11px"><span class="fn">微软</span><span class="fc">MSFT</span> <span style="color:#ef4444">+0.43%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">通讯服务</span><div style="font-size:10px;color:#6b7280">20只 · 16涨4跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:39.6%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+5.28亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">168亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+1.26%</span></td>
+      <td style="font-size:11px"><span class="fn">谷歌-C</span><span class="fc">GOOG</span> <span style="color:#ef4444">+1.05%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">房地产</span><div style="font-size:10px;color:#6b7280">57只 · 24涨33跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:8.3%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+1.11亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">79亿</td>
+      <td style="text-align:right"><span style="color:#22c55e;font-weight:600">-0.08%</span></td>
+      <td style="font-size:11px"><span class="fn">DigitalBridge Group Inc-A</span><span class="fc">DBRG</span> <span style="color:#ef4444">+0.13%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">工业</span><div style="font-size:10px;color:#6b7280">247只 · 167涨80跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:7.3%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.98亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">751亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+0.87%</span></td>
+      <td style="font-size:11px"><span class="fn">GE航空航天</span><span class="fc">GE</span> <span style="color:#ef4444">+1.08%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">原材料</span><div style="font-size:10px;color:#6b7280">87只 · 71涨16跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:7.3%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.97亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">251亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+2.33%</span></td>
+      <td style="font-size:11px"><span class="fn">Linde plc</span><span class="fc">LIN</span> <span style="color:#ef4444">+1.3%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">医疗保健</span><div style="font-size:10px;color:#6b7280">179只 · 129涨47跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:6.7%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.90亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">608亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+2.10%</span></td>
+      <td style="font-size:11px"><span class="fn">安进</span><span class="fc">AMGN</span> <span style="color:#ef4444">+1.88%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">能源</span><div style="font-size:10px;color:#6b7280">87只 · 42涨45跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:2.9%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.39亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">199亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+0.32%</span></td>
+      <td style="font-size:11px"><span class="fn">卡梅科</span><span class="fc">CCJ</span> <span style="color:#ef4444">+7.24%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">公用事业</span><div style="font-size:10px;color:#6b7280">48只 · 5涨42跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:2.5%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.34亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">119亿</td>
+      <td style="text-align:right"><span style="color:#22c55e;font-weight:600">-1.67%</span></td>
+      <td style="font-size:11px"><span class="fn">美国电力</span><span class="fc">AEP</span> <span style="color:#22c55e">-3.79%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">其他</span><div style="font-size:10px;color:#6b7280">1只 · 0涨1跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;left:0;width:1.2%;height:100%;background:#ef444433;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#ef4444;white-space:nowrap;font-size:13px">+0.16亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">8亿</td>
+      <td style="text-align:right"><span style="color:#22c55e;font-weight:600">-4.92%</span></td>
+      <td style="font-size:11px"><span class="fn">TeraWulf Inc</span><span class="fc">WULF</span> <span style="color:#22c55e">-4.92%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">非日常生活消费品</span><div style="font-size:10px;color:#6b7280">175只 · 129涨46跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;right:0;width:31.0%;height:100%;background:#22c55e33;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#22c55e;white-space:nowrap;font-size:13px">-4.14亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">714亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+1.56%</span></td>
+      <td style="font-size:11px"><span class="fn">特斯拉</span><span class="fc">TSLA</span> <span style="color:#ef4444">+5.14%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">日常消费品</span><div style="font-size:10px;color:#6b7280">57只 · 45涨12跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;right:0;width:12.8%;height:100%;background:#22c55e33;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#22c55e;white-space:nowrap;font-size:13px">-1.71亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">221亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+0.86%</span></td>
+      <td style="font-size:11px"><span class="fn">百事</span><span class="fc">PEP</span> <span style="color:#ef4444">+0.99%</span></td>
+    </tr><tr>
+      <td><span style="font-weight:600;color:#e5e7eb">金融</span><div style="font-size:10px;color:#6b7280">199只 · 153涨44跌</div></td>
+      <td style="min-width:120px">
+        <div style="display:flex;align-items:center;gap:6px">
+          <div style="flex:1;height:18px;background:rgba(255,255,255,.04);border-radius:3px;position:relative;overflow:hidden">
+            <div style="position:absolute;right:0;width:2.0%;height:100%;background:#22c55e33;border-radius:3px"></div>
+          </div>
+          <span style="font-weight:700;color:#22c55e;white-space:nowrap;font-size:13px">-0.27亿</span>
+        </div>
+      </td>
+      <td style="text-align:right;color:#9ca3af;font-size:12px">662亿</td>
+      <td style="text-align:right"><span style="color:#ef4444;font-weight:600">+3.19%</span></td>
+      <td style="font-size:11px"><span class="fn">Synchrony Financial</span><span class="fc">SYF</span> <span style="color:#ef4444">+3.6%</span></td>
+    </tr></tbody>
+    </table>
+
+    <div id="us-fund-flow" style="scroll-margin-top:60px"></div>
+    <div class="section-divider"><span>💰 主力资金流向</span></div>
+    <div style="font-size:11px;color:#6b7280;margin-bottom:10px">数据来源：东方财富（延时约3分钟）· 更新：2026-08-23 10:39:36 · 主力=超大单+大单</div>
+    <div class="flow-grid"><div class="ftw">
+      <div class="ftt" style="color:#ef4444">🔴 主力净流入 TOP10</div>
+      <table class="ftab"><thead><tr><th>股票</th><th>主力净流入</th><th>占比</th></tr></thead>
+      <tbody><tr><td><span class="fn">微软</span><span class="fc">MSFT</span></td><td class="fp">7.53亿</td><td class="fp">+6.92%</td></tr>
+<tr><td><span class="fn">英伟达</span><span class="fc">NVDA</span></td><td class="fp">5.52亿</td><td class="fp">+2.59%</td></tr>
+<tr><td><span class="fn">谷歌-C</span><span class="fc">GOOG</span></td><td class="fp">4.42亿</td><td class="fp">+8.43%</td></tr>
+<tr><td><span class="fn">美光科技</span><span class="fc">MU</span></td><td class="fp">3.43亿</td><td class="fp">+1.62%</td></tr>
+<tr><td><span class="fn">超威半导体</span><span class="fc">AMD</span></td><td class="fp">2.79亿</td><td class="fp">+4.13%</td></tr>
+<tr><td><span class="fn">Meta Platforms Inc-A</span><span class="fc">META</span></td><td class="fp">2.66亿</td><td class="fp">+3.49%</td></tr>
+<tr><td><span class="fn">特斯拉</span><span class="fc">TSLA</span></td><td class="fp">1.86亿</td><td class="fp">+0.87%</td></tr>
+<tr><td><span class="fn">Palantir Technologies Inc-A</span><span class="fc">PLTR</span></td><td class="fp">1.80亿</td><td class="fp">+2.45%</td></tr>
+<tr><td><span class="fn">思科</span><span class="fc">CSCO</span></td><td class="fp">1.11亿</td><td class="fp">+5.42%</td></tr>
+<tr><td><span class="fn">谷歌-A</span><span class="fc">GOOGL</span></td><td class="fp">1.11亿</td><td class="fp">+1.54%</td></tr></tbody></table>
+    </div><div class="ftw">
+      <div class="ftt" style="color:#22c55e">🟢 主力净流出 TOP10</div>
+      <table class="ftab"><thead><tr><th>股票</th><th>主力净流入</th><th>占比</th></tr></thead>
+      <tbody><tr><td><span class="fn">苹果</span><span class="fc">AAPL</span></td><td class="fn2">-11.85亿</td><td class="fn2">-8.16%</td></tr>
+<tr><td><span class="fn">亚马逊</span><span class="fc">AMZN</span></td><td class="fn2">-8.15亿</td><td class="fn2">-8.81%</td></tr>
+<tr><td><span class="fn">L3Harris Technologies Inc</span><span class="fc">LHX</span></td><td class="fn2">-2.00亿</td><td class="fn2">-37.77%</td></tr>
+<tr><td><span class="fn">开市客</span><span class="fc">COST</span></td><td class="fn2">-1.64亿</td><td class="fn2">-7.33%</td></tr>
+<tr><td><span class="fn">沃尔玛</span><span class="fc">WMT</span></td><td class="fn2">-1.18亿</td><td class="fn2">-2.58%</td></tr>
+<tr><td><span class="fn">Robinhood Markets Inc-A</span><span class="fc">HOOD</span></td><td class="fn2">-7801万</td><td class="fn2">-1.45%</td></tr>
+<tr><td><span class="fn">英特尔</span><span class="fc">INTC</span></td><td class="fn2">-7663万</td><td class="fn2">-0.92%</td></tr>
+<tr><td><span class="fn">亚德诺</span><span class="fc">ADI</span></td><td class="fn2">-7425万</td><td class="fn2">-3.64%</td></tr>
+<tr><td><span class="fn">雅培</span><span class="fc">ABT</span></td><td class="fn2">-6039万</td><td class="fn2">-5.24%</td></tr>
+<tr><td><span class="fn">WillScot Holdings Corp</span><span class="fc">WSC</span></td><td class="fn2">-5577万</td><td class="fn2">-27.77%</td></tr></tbody></table>
+    </div></div>
+    <div style="margin-top:12px"><div class="ftw" style="margin-bottom:16px">
+  <div class="ftt">📊 成交额 TOP10</div>
+  <table class="ftab"><thead><tr><th>股票</th><th>现价</th><th>涨跌幅</th><th style="text-align:right">成交额</th></tr></thead>
+  <tbody><tr><td><span class="fn">特斯拉</span><span class="fc">TSLA</span></td><td>$362.86</td><td style="color:#ef4444;font-weight:600">+5.14%</td><td>213.5亿</td></tr><tr><td><span class="fn">英伟达</span><span class="fc">NVDA</span></td><td>$214.72</td><td style="color:#22c55e;font-weight:600">-0.98%</td><td>213.4亿</td></tr><tr><td><span class="fn">美光科技</span><span class="fc">MU</span></td><td>$966.78</td><td style="color:#22c55e;font-weight:600">-0.77%</td><td>211.6亿</td></tr><tr><td><span class="fn">苹果</span><span class="fc">AAPL</span></td><td>$309.35</td><td style="color:#22c55e;font-weight:600">-0.63%</td><td>145.2亿</td></tr><tr><td><span class="fn">Moderna Inc</span><span class="fc">MRNA</span></td><td>$145.13</td><td style="color:#ef4444;font-weight:600">+8.86%</td><td>129.2亿</td></tr><tr><td><span class="fn">闪迪</span><span class="fc">SNDK</span></td><td>$1596.08</td><td style="color:#22c55e;font-weight:600">-0.28%</td><td>121.0亿</td></tr><tr><td><span class="fn">微软</span><span class="fc">MSFT</span></td><td>$483.24</td><td style="color:#ef4444;font-weight:600">+0.43%</td><td>108.7亿</td></tr><tr><td><span class="fn">SpaceX</span><span class="fc">SPCX</span></td><td>$136.97</td><td style="color:#ef4444;font-weight:600">+2.22%</td><td>106.4亿</td></tr><tr><td><span class="fn">亚马逊</span><span class="fc">AMZN</span></td><td>$258.63</td><td style="color:#22c55e;font-weight:600">-0.57%</td><td>92.6亿</td></tr><tr><td><span class="fn">英特尔</span><span class="fc">INTC</span></td><td>$90.07</td><td style="color:#22c55e;font-weight:600">-2.24%</td><td>83.1亿</td></tr></tbody></table>
+</div></div>
+
+    
+    <div id="us-sector-etf" style="scroll-margin-top:60px"></div>
+    <div class="section-divider"><span>🏭 11大板块ETF涨跌</span></div>
+    <div class="sector-table-wrap">
+      <div class="sector-table-title">板块ETF当日表现（SPDR Sector ETFs）</div>
+      <table class="sector-table">
+        <thead>
+          <tr><th>#</th><th>板块</th><th style="text-align:right">现价</th><th style="text-align:right">涨跌幅</th></tr>
+        </thead>
+        <tbody>
+
+            <tr>
+              <td class="rank-cell">1</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#f97316"></span>
+                材料
+                <span class="sector-en">Materials</span>
+              </td>
+              <td class="price-cell">$53.54</td>
+              <td class="chg-cell up">+2.14%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">2</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#ef4444"></span>
+                医疗
+                <span class="sector-en">Health Care</span>
+              </td>
+              <td class="price-cell">$174.62</td>
+              <td class="chg-cell up">+1.29%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">3</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#ec4899"></span>
+                可选消费
+                <span class="sector-en">Cons. Disc.</span>
+              </td>
+              <td class="price-cell">$118.02</td>
+              <td class="chg-cell up">+1.15%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">4</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#10b981"></span>
+                金融
+                <span class="sector-en">Financials</span>
+              </td>
+              <td class="price-cell">$57.48</td>
+              <td class="chg-cell up">+0.93%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">5</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#06b6d4"></span>
+                必需消费
+                <span class="sector-en">Cons. Staples</span>
+              </td>
+              <td class="price-cell">$85.99</td>
+              <td class="chg-cell up">+0.79%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">6</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#14b8a6"></span>
+                通讯服务
+                <span class="sector-en">Comm. Services</span>
+              </td>
+              <td class="price-cell">$111.40</td>
+              <td class="chg-cell up">+0.65%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">7</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#8b5cf6"></span>
+                工业
+                <span class="sector-en">Industrials</span>
+              </td>
+              <td class="price-cell">$180.25</td>
+              <td class="chg-cell up">+0.27%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">8</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#3b82f6"></span>
+                科技
+                <span class="sector-en">Technology</span>
+              </td>
+              <td class="price-cell">$183.31</td>
+              <td class="chg-cell up">+0.11%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">9</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#a855f7"></span>
+                房地产
+                <span class="sector-en">Real Estate</span>
+              </td>
+              <td class="price-cell">$45.08</td>
+              <td class="chg-cell flat">+0.00%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">10</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#f59e0b"></span>
+                能源
+                <span class="sector-en">Energy</span>
+              </td>
+              <td class="price-cell">$63.64</td>
+              <td class="chg-cell down">-0.17%</td>
+            </tr>
+            <tr>
+              <td class="rank-cell">11</td>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#84cc16"></span>
+                公用事业
+                <span class="sector-en">Utilities</span>
+              </td>
+              <td class="price-cell">$42.77</td>
+              <td class="chg-cell down">-2.28%</td>
+            </tr>
+        </tbody>
+      </table>
+      <div id="sectorBarChart" style="height:340px;margin-top:16px;"></div>
+    </div>
+
+    
+    <div class="section-divider"><span>🔬 行业/主题ETF</span></div>
+    <div class="sector-table-wrap">
+      <div class="sector-table-title">重点行业ETF（半导体/贵金属/原油/长债）</div>
+      <table class="sector-table">
+        <thead>
+          <tr><th>品种</th><th style="text-align:right">现价</th><th style="text-align:right">涨跌幅</th><th style="text-align:right">52周高</th><th style="text-align:right">52周低</th></tr>
+        </thead>
+        <tbody>
+
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#ef4444"></span>
+                半导体ETF
+                <span class="sector-en">SMH</span>
+              </td>
+              <td class="price-cell">$560.42</td>
+              <td class="chg-cell down">-0.40%</td>
+              <td class="chg-cell">671.83</td>
+              <td class="chg-cell">281.74</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#f97316"></span>
+                半导体iShares
+                <span class="sector-en">SOXX</span>
+              </td>
+              <td class="price-cell">$520.05</td>
+              <td class="chg-cell down">-0.44%</td>
+              <td class="chg-cell">655.95</td>
+              <td class="chg-cell">238.15</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#ffd700"></span>
+                黄金ETF
+                <span class="sector-en">GLD</span>
+              </td>
+              <td class="price-cell">$423.36</td>
+              <td class="chg-cell up">+1.95%</td>
+              <td class="chg-cell">509.70</td>
+              <td class="chg-cell">306.43</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#c0c0c0"></span>
+                白银ETF
+                <span class="sector-en">SLV</span>
+              </td>
+              <td class="price-cell">$62.72</td>
+              <td class="chg-cell up">+1.72%</td>
+              <td class="chg-cell">109.83</td>
+              <td class="chg-cell">34.40</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#d4a017"></span>
+                金矿ETF
+                <span class="sector-en">GDX</span>
+              </td>
+              <td class="price-cell">$102.83</td>
+              <td class="chg-cell up">+2.98%</td>
+              <td class="chg-cell">117.17</td>
+              <td class="chg-cell">58.11</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#8b5cf6"></span>
+                原油ETF
+                <span class="sector-en">USO</span>
+              </td>
+              <td class="price-cell">$134.64</td>
+              <td class="chg-cell up">+0.07%</td>
+              <td class="chg-cell">154.08</td>
+              <td class="chg-cell">65.98</td>
+            </tr>
+            <tr>
+              <td class="name-cell">
+                <span class="sector-dot" style="background:#06b6d4"></span>
+                长债ETF
+                <span class="sector-en">TLT</span>
+              </td>
+              <td class="price-cell">$82.05</td>
+              <td class="chg-cell down">-0.35%</td>
+              <td class="chg-cell">92.19</td>
+              <td class="chg-cell">81.17</td>
+            </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    
+    <div id="us-charts" style="scroll-margin-top:60px"></div>
     <div class="section-divider"><span>📊 指数详情与走势</span></div>
 
         <section class="us-block" style="border-left: 4px solid #3b82f6;">
@@ -1128,256 +1668,8 @@
           </div>
         </section>
 
-    <div class="section-divider"><span>🏭 11大板块ETF涨跌</span></div>
-    <div class="sector-table-wrap">
-      <div class="sector-table-title">板块ETF当日表现（SPDR Sector ETFs）</div>
-      <table class="sector-table">
-        <thead>
-          <tr><th>#</th><th>板块</th><th style="text-align:right">现价</th><th style="text-align:right">涨跌幅</th></tr>
-        </thead>
-        <tbody>
-
-            <tr>
-              <td class="rank-cell">1</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#f97316"></span>
-                材料
-                <span class="sector-en">Materials</span>
-              </td>
-              <td class="price-cell">$53.54</td>
-              <td class="chg-cell up">+2.14%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">2</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#ef4444"></span>
-                医疗
-                <span class="sector-en">Health Care</span>
-              </td>
-              <td class="price-cell">$174.62</td>
-              <td class="chg-cell up">+1.29%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">3</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#ec4899"></span>
-                可选消费
-                <span class="sector-en">Cons. Disc.</span>
-              </td>
-              <td class="price-cell">$118.02</td>
-              <td class="chg-cell up">+1.15%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">4</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#10b981"></span>
-                金融
-                <span class="sector-en">Financials</span>
-              </td>
-              <td class="price-cell">$57.48</td>
-              <td class="chg-cell up">+0.93%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">5</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#06b6d4"></span>
-                必需消费
-                <span class="sector-en">Cons. Staples</span>
-              </td>
-              <td class="price-cell">$85.99</td>
-              <td class="chg-cell up">+0.79%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">6</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#14b8a6"></span>
-                通讯服务
-                <span class="sector-en">Comm. Services</span>
-              </td>
-              <td class="price-cell">$111.40</td>
-              <td class="chg-cell up">+0.65%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">7</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#8b5cf6"></span>
-                工业
-                <span class="sector-en">Industrials</span>
-              </td>
-              <td class="price-cell">$180.25</td>
-              <td class="chg-cell up">+0.27%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">8</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#3b82f6"></span>
-                科技
-                <span class="sector-en">Technology</span>
-              </td>
-              <td class="price-cell">$183.31</td>
-              <td class="chg-cell up">+0.11%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">9</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#a855f7"></span>
-                房地产
-                <span class="sector-en">Real Estate</span>
-              </td>
-              <td class="price-cell">$45.08</td>
-              <td class="chg-cell flat">+0.00%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">10</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#f59e0b"></span>
-                能源
-                <span class="sector-en">Energy</span>
-              </td>
-              <td class="price-cell">$63.64</td>
-              <td class="chg-cell down">-0.17%</td>
-            </tr>
-            <tr>
-              <td class="rank-cell">11</td>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#84cc16"></span>
-                公用事业
-                <span class="sector-en">Utilities</span>
-              </td>
-              <td class="price-cell">$42.77</td>
-              <td class="chg-cell down">-2.28%</td>
-            </tr>
-        </tbody>
-      </table>
-      <div id="sectorBarChart" style="height:340px;margin-top:16px;"></div>
-    </div>
-
-    <div class="section-divider"><span>🔬 行业/主题ETF</span></div>
-    <div class="sector-table-wrap">
-      <div class="sector-table-title">重点行业ETF（半导体/贵金属/原油/长债）</div>
-      <table class="sector-table">
-        <thead>
-          <tr><th>品种</th><th style="text-align:right">现价</th><th style="text-align:right">涨跌幅</th><th style="text-align:right">52周高</th><th style="text-align:right">52周低</th></tr>
-        </thead>
-        <tbody>
-
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#ef4444"></span>
-                半导体ETF
-                <span class="sector-en">SMH</span>
-              </td>
-              <td class="price-cell">$560.42</td>
-              <td class="chg-cell down">-0.40%</td>
-              <td class="chg-cell">671.83</td>
-              <td class="chg-cell">281.74</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#f97316"></span>
-                半导体iShares
-                <span class="sector-en">SOXX</span>
-              </td>
-              <td class="price-cell">$520.05</td>
-              <td class="chg-cell down">-0.44%</td>
-              <td class="chg-cell">655.95</td>
-              <td class="chg-cell">238.15</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#ffd700"></span>
-                黄金ETF
-                <span class="sector-en">GLD</span>
-              </td>
-              <td class="price-cell">$423.36</td>
-              <td class="chg-cell up">+1.95%</td>
-              <td class="chg-cell">509.70</td>
-              <td class="chg-cell">306.43</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#c0c0c0"></span>
-                白银ETF
-                <span class="sector-en">SLV</span>
-              </td>
-              <td class="price-cell">$62.72</td>
-              <td class="chg-cell up">+1.72%</td>
-              <td class="chg-cell">109.83</td>
-              <td class="chg-cell">34.40</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#d4a017"></span>
-                金矿ETF
-                <span class="sector-en">GDX</span>
-              </td>
-              <td class="price-cell">$102.83</td>
-              <td class="chg-cell up">+2.98%</td>
-              <td class="chg-cell">117.17</td>
-              <td class="chg-cell">58.11</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#8b5cf6"></span>
-                原油ETF
-                <span class="sector-en">USO</span>
-              </td>
-              <td class="price-cell">$134.64</td>
-              <td class="chg-cell up">+0.07%</td>
-              <td class="chg-cell">154.08</td>
-              <td class="chg-cell">65.98</td>
-            </tr>
-            <tr>
-              <td class="name-cell">
-                <span class="sector-dot" style="background:#06b6d4"></span>
-                长债ETF
-                <span class="sector-en">TLT</span>
-              </td>
-              <td class="price-cell">$82.05</td>
-              <td class="chg-cell down">-0.35%</td>
-              <td class="chg-cell">92.19</td>
-              <td class="chg-cell">81.17</td>
-            </tr>
-        </tbody>
-      </table>
-    </div>
-
-
-    <div class="section-divider"><span>💰 主力资金流向</span></div>
-    <div style="font-size:11px;color:#6b7280;margin-bottom:10px">数据来源：东方财富（延时约3分钟）· 更新：2026-08-23 10:39:36 · 主力=超大单+大单</div>
-    <div class="flow-grid"><div class="ftw">
-      <div class="ftt" style="color:#ef4444">🔴 主力净流入 TOP10</div>
-      <table class="ftab"><thead><tr><th>股票</th><th>主力净流入</th><th>占比</th></tr></thead>
-      <tbody><tr><td><span class="fn">微软</span><span class="fc">MSFT</span></td><td class="fp">7.53亿</td><td class="fp">+6.92%</td></tr>
-<tr><td><span class="fn">英伟达</span><span class="fc">NVDA</span></td><td class="fp">5.52亿</td><td class="fp">+2.59%</td></tr>
-<tr><td><span class="fn">谷歌-C</span><span class="fc">GOOG</span></td><td class="fp">4.42亿</td><td class="fp">+8.43%</td></tr>
-<tr><td><span class="fn">美光科技</span><span class="fc">MU</span></td><td class="fp">3.43亿</td><td class="fp">+1.62%</td></tr>
-<tr><td><span class="fn">超威半导体</span><span class="fc">AMD</span></td><td class="fp">2.79亿</td><td class="fp">+4.13%</td></tr>
-<tr><td><span class="fn">Meta Platforms Inc-A</span><span class="fc">META</span></td><td class="fp">2.66亿</td><td class="fp">+3.49%</td></tr>
-<tr><td><span class="fn">特斯拉</span><span class="fc">TSLA</span></td><td class="fp">1.86亿</td><td class="fp">+0.87%</td></tr>
-<tr><td><span class="fn">Palantir Technologies Inc-A</span><span class="fc">PLTR</span></td><td class="fp">1.80亿</td><td class="fp">+2.45%</td></tr>
-<tr><td><span class="fn">思科</span><span class="fc">CSCO</span></td><td class="fp">1.11亿</td><td class="fp">+5.42%</td></tr>
-<tr><td><span class="fn">谷歌-A</span><span class="fc">GOOGL</span></td><td class="fp">1.11亿</td><td class="fp">+1.54%</td></tr></tbody></table>
-    </div><div class="ftw">
-      <div class="ftt" style="color:#22c55e">🟢 主力净流出 TOP10</div>
-      <table class="ftab"><thead><tr><th>股票</th><th>主力净流入</th><th>占比</th></tr></thead>
-      <tbody><tr><td><span class="fn">苹果</span><span class="fc">AAPL</span></td><td class="fn2">-11.85亿</td><td class="fn2">-8.16%</td></tr>
-<tr><td><span class="fn">亚马逊</span><span class="fc">AMZN</span></td><td class="fn2">-8.15亿</td><td class="fn2">-8.81%</td></tr>
-<tr><td><span class="fn">L3Harris Technologies Inc</span><span class="fc">LHX</span></td><td class="fn2">-2.00亿</td><td class="fn2">-37.77%</td></tr>
-<tr><td><span class="fn">开市客</span><span class="fc">COST</span></td><td class="fn2">-1.64亿</td><td class="fn2">-7.33%</td></tr>
-<tr><td><span class="fn">沃尔玛</span><span class="fc">WMT</span></td><td class="fn2">-1.18亿</td><td class="fn2">-2.58%</td></tr>
-<tr><td><span class="fn">Robinhood Markets Inc-A</span><span class="fc">HOOD</span></td><td class="fn2">-7801万</td><td class="fn2">-1.45%</td></tr>
-<tr><td><span class="fn">英特尔</span><span class="fc">INTC</span></td><td class="fn2">-7663万</td><td class="fn2">-0.92%</td></tr>
-<tr><td><span class="fn">亚德诺</span><span class="fc">ADI</span></td><td class="fn2">-7425万</td><td class="fn2">-3.64%</td></tr>
-<tr><td><span class="fn">雅培</span><span class="fc">ABT</span></td><td class="fn2">-6039万</td><td class="fn2">-5.24%</td></tr>
-<tr><td><span class="fn">WillScot Holdings Corp</span><span class="fc">WSC</span></td><td class="fn2">-5577万</td><td class="fn2">-27.77%</td></tr></tbody></table>
-    </div></div>
-    <div style="margin-top:12px"><div class="ftw" style="margin-bottom:16px">
-  <div class="ftt">📊 成交额 TOP10</div>
-  <table class="ftab"><thead><tr><th>股票</th><th>现价</th><th>涨跌幅</th><th style="text-align:right">成交额</th></tr></thead>
-  <tbody><tr><td><span class="fn">特斯拉</span><span class="fc">TSLA</span></td><td>$362.86</td><td style="color:#ef4444;font-weight:600">+5.14%</td><td>213.5亿</td></tr><tr><td><span class="fn">英伟达</span><span class="fc">NVDA</span></td><td>$214.72</td><td style="color:#22c55e;font-weight:600">-0.98%</td><td>213.4亿</td></tr><tr><td><span class="fn">美光科技</span><span class="fc">MU</span></td><td>$966.78</td><td style="color:#22c55e;font-weight:600">-0.77%</td><td>211.6亿</td></tr><tr><td><span class="fn">苹果</span><span class="fc">AAPL</span></td><td>$309.35</td><td style="color:#22c55e;font-weight:600">-0.63%</td><td>145.2亿</td></tr><tr><td><span class="fn">Moderna Inc</span><span class="fc">MRNA</span></td><td>$145.13</td><td style="color:#ef4444;font-weight:600">+8.86%</td><td>129.2亿</td></tr><tr><td><span class="fn">闪迪</span><span class="fc">SNDK</span></td><td>$1596.08</td><td style="color:#22c55e;font-weight:600">-0.28%</td><td>121.0亿</td></tr><tr><td><span class="fn">微软</span><span class="fc">MSFT</span></td><td>$483.24</td><td style="color:#ef4444;font-weight:600">+0.43%</td><td>108.7亿</td></tr><tr><td><span class="fn">SpaceX</span><span class="fc">SPCX</span></td><td>$136.97</td><td style="color:#ef4444;font-weight:600">+2.22%</td><td>106.4亿</td></tr><tr><td><span class="fn">亚马逊</span><span class="fc">AMZN</span></td><td>$258.63</td><td style="color:#22c55e;font-weight:600">-0.57%</td><td>92.6亿</td></tr><tr><td><span class="fn">英特尔</span><span class="fc">INTC</span></td><td>$90.07</td><td style="color:#22c55e;font-weight:600">-2.24%</td><td>83.1亿</td></tr></tbody></table>
-</div></div>
-
+    
+    <div id="us-stocks" style="scroll-margin-top:60px"></div>
     <div class="section-divider"><span>🏢 典型个股表现</span></div>
     <div style="font-size:11px;color:#6b7280;margin-bottom:10px">实时：腾讯财经 · K线：新浪财经 · 52周位置指示条（红涨绿跌）</div>
     <div style="margin-bottom:16px"><div style="font-size:13px;font-weight:600;color:#9ca3af;margin-bottom:8px;padding-left:2px">科技巨头</div><div class="sgrid"><div class="scard">
@@ -1666,7 +1958,9 @@
   </div>
 
   <!-- Tab 5: 更多 -->
-  <div class="tab-page" id="page-more">
+  
+
+    <div class="tab-page" id="page-more">
     <div class="more-placeholder">
       <h2>即将推出</h2>
       <p class="more-sub">更多功能正在开发中，敬请期待</p>
@@ -1957,6 +2251,42 @@ if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('./sw.js').catch(() => {});
   });
 }
-</script>
+
+    // US stocks sub-nav scroll spy
+    (function(){
+      var links = document.querySelectorAll('.us-subnav-link');
+      if (!links.length) return;
+      var sections = [];
+      links.forEach(function(link){
+        var href = link.getAttribute('href');
+        if (href && href.charAt(0) === '#') {
+          var el = document.querySelector(href);
+          if (el) sections.push({el: el, link: link});
+        }
+      });
+      function onScroll(){
+        var scrollY = window.scrollY || window.pageYOffset;
+        var current = sections[0];
+        sections.forEach(function(s){
+          if (s.el.getBoundingClientRect().top <= 100) current = s;
+        });
+        links.forEach(function(l){ l.classList.remove('active'); });
+        if (current) current.link.classList.add('active');
+      }
+      window.addEventListener('scroll', onScroll, {passive: true});
+      links.forEach(function(link){
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          var href = link.getAttribute('href');
+          var target = document.querySelector(href);
+          if (target) {
+            var top = target.getBoundingClientRect().top + window.pageYOffset - 56;
+            window.scrollTo({top: top, behavior: 'smooth'});
+          }
+        });
+      });
+    })();
+
+    </script>
 </body>
 </html>
