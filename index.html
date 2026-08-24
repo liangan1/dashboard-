@@ -2023,15 +2023,14 @@
 
     <div class="tab-page" id="page-a-shares">
     <div style="font-size: 0.7em; color: #888; text-align: right; padding: 2px 8px; margin-top: -4px; margin-bottom: 4px;">
-    数据时间: 2026-08-24 18:20:32 | <span style="color: #22c55e;">✅ 实时</span>
+    数据时间: 2026-08-24 18:32:41 | <span style="color: #22c55e;">✅ 实时</span>
 </div>
-    <div class="tab-update-info" style="font-size: 0.75em; color: #888; text-align: right; padding: 4px 12px 0;"><span class="tab-update-time" data-tab="a_shares">上次更新: 08-24 18:20</span></div>
+    <div class="tab-update-info" style="font-size: 0.75em; color: #888; text-align: right; padding: 4px 12px 0;"><span class="tab-update-time" data-tab="a_shares">上次更新: 08-24 18:32</span></div>
 
     <div class="subnav-spacer"></div>
     <div class="us-subnav" id="aSubnav">
       <a href="#a-pulse" class="us-subnav-link active">🔥 市场脉搏</a>
-      <a href="#a-sector" class="us-subnav-link">🏭 行业资金</a>
-      <a href="#a-concept" class="us-subnav-link">💡 概念板块</a>
+      <a href="#a-sector" class="us-subnav-link">📊 板块资金</a>
       <a href="#a-fund" class="us-subnav-link">💰 个股资金</a>
       <a href="#a-stocks" class="us-subnav-link">🏢 龙头个股</a>
     </div>
@@ -2067,8 +2066,8 @@
       </div>
     </div>
 
-    <div class="section-divider"><span>🔥 市场脉搏 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:20</span></span></div>
-      <div class="us-rt-time">数据更新: 2026-08-24 18:20:32 · 东方财富（延时约3分钟）· 新浪财经（K线）</div>
+    <div class="section-divider"><span>🔥 市场脉搏 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:32</span></span></div>
+      <div class="us-rt-time">数据更新: 2026-08-24 18:32:41 · 东方财富（延时约3分钟）· 新浪财经（K线）</div>
 
 
     <div id="auction-block" style="scroll-margin-top:60px;margin-bottom:12px">
@@ -2152,57 +2151,44 @@
 
       </div>
 
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
-        <div style="font-size:10px;color:#6b7280;padding:2px 0 4px 2px;grid-column:1/-1;margin-bottom:-4px">🌏 亚太市场</div>
-        <div class="ov-card" style="border-top:3px solid #e11d48;padding:10px">
-      <div class="ov-label" style="font-size:11px">日经225</div>
-      <div class="ov-value" style="font-size:18px">65,528.09</div>
-      <div class="ov-chg down" style="font-size:12px">▼-0.74%</div>
-    </div>
-<div class="ov-card" style="border-top:3px solid #7c3aed;padding:10px">
-      <div class="ov-label" style="font-size:11px">韩国KOSPI</div>
-      <div class="ov-value" style="font-size:18px">6,696.96</div>
-      <div class="ov-chg down" style="font-size:12px">▼-3.12%</div>
-    </div>
-
-      </div>
-
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-        <div style="background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:8px;padding:10px">
-          <div style="font-size:11px;color:#9ca3af">主力净流入</div>
-          <div style="font-size:20px;font-weight:700;color:#22c55e">-799.33亿</div>
-          <div style="font-size:10px;color:#6b7280">全市场聚合</div>
+      <!-- 💰 全市场资金流向 (Top-Down) -->
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:12px">
+        <div style="font-size:12px;font-weight:600;color:#9ca3af;margin-bottom:10px">💰 全市场资金流向</div>
+        <!-- L1: 市场概况 -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+          <div style="background:rgba(59,130,246,.06);border:1px solid rgba(59,130,246,.12);border-radius:8px;padding:10px">
+            <div style="font-size:10px;color:#9ca3af">两市成交额</div>
+            <div style="font-size:20px;font-weight:700;color:#60a5fa">20075<span style="font-size:12px;font-weight:400;color:#6b7280"> 亿</span></div>
+          </div>
+          <div style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.12);border-radius:8px;padding:10px">
+            <div style="font-size:10px;color:#9ca3af">涨跌家数</div>
+            <div style="font-size:18px;font-weight:700"><span style="color:#ef4444">1421↑</span> <span style="color:#22c55e">3736↓</span></div>
+          </div>
         </div>
-        <div style="background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:8px;padding:10px">
-          <div style="font-size:11px;color:#9ca3af">两市成交额</div>
-          <div style="font-size:20px;font-weight:700;color:#60a5fa">20075亿</div>
-          <div style="font-size:10px;color:#6b7280">沪深合计</div>
+        <!-- L2: 四类资金明细 -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
+          <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#6b7280">超大单</div>
+            <div style="font-size:14px;font-weight:700;color:#22c55e">-424.21亿</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#6b7280">大单</div>
+            <div style="font-size:14px;font-weight:700;color:#22c55e">-375.12亿</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#6b7280">中单</div>
+            <div style="font-size:14px;font-weight:700;color:#ef4444">+237.51亿</div>
+          </div>
+          <div style="background:rgba(255,255,255,.04);border-radius:6px;padding:8px 6px;text-align:center">
+            <div style="font-size:10px;color:#6b7280">小单</div>
+            <div style="font-size:14px;font-weight:700;color:#ef4444">+561.82亿</div>
+          </div>
         </div>
-        <div style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:8px;padding:10px">
-          <div style="font-size:11px;color:#9ca3af">涨跌家数</div>
-          <div style="font-size:20px;font-weight:700"><span style="color:#ef4444">1421↑</span> <span style="color:#22c55e">3736↓</span></div>
-          <div style="font-size:10px;color:#6b7280">全市场</div>
+        <!-- L3: 主力总结 -->
+        <div style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2);border-radius:8px;padding:12px;text-align:center">
+          <div style="font-size:11px;color:#9ca3af;margin-bottom:4px">📊 主力资金（超大单+大单）</div>
+          <div style="font-size:24px;font-weight:800;color:#22c55e">📉 -799.33亿</div>
         </div>
-      </div>
-
-      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap">
-        <div style="flex:1;min-width:100px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
-          <div style="font-size:10px;color:#6b7280">超大单</div>
-          <div style="font-size:14px;font-weight:600;color:#22c55e">-424.21亿</div>
-        </div>
-        <div style="flex:1;min-width:100px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
-          <div style="font-size:10px;color:#6b7280">大单</div>
-          <div style="font-size:14px;font-weight:600;color:#22c55e">-375.12亿</div>
-        </div>
-        <div style="flex:1;min-width:100px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
-          <div style="font-size:10px;color:#6b7280">中单</div>
-          <div style="font-size:14px;font-weight:600;color:#ef4444">+237.51亿</div>
-        </div>
-        <div style="flex:1;min-width:100px;background:rgba(255,255,255,.03);border-radius:6px;padding:8px 10px">
-          <div style="font-size:10px;color:#6b7280">小单</div>
-          <div style="font-size:14px;font-weight:600;color:#ef4444">+561.82亿</div>
-        </div>
-
       </div>
 
       <!-- 北向成交 & ETF资金 -->
@@ -2374,7 +2360,7 @@
     </div>
 
     <div id="a-sector" style="scroll-margin-top:60px"></div>
-    <div class="section-divider"><span>🏭 行业板块资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:20</span></span></div>
+    <div class="section-divider"><span>🏭 行业板块资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:32</span></span></div>
     <div style="font-size:11px;color:#6b7280;margin-bottom:10px">共100个行业板块 · 数据源：东方财富 · 主力=超大单+大单</div>
     <div style="overflow-x:auto">
     <table class="ftab" style="width:100%;font-size:12px">
@@ -3784,7 +3770,7 @@
     </div>
 
     <div id="a-concept" style="scroll-margin-top:60px"></div>
-    <div class="section-divider"><span>💡 概念板块资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:20</span></span></div>
+    <div class="section-divider"><span>💡 概念板块资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:32</span></span></div>
     <div style="font-size:11px;color:#6b7280;margin-bottom:10px">资金净流入/流出绝对值TOP20概念板块 · 数据源：东方财富</div>
     <div style="overflow-x:auto">
     <table class="ftab" style="width:100%;font-size:12px">
@@ -4054,7 +4040,7 @@
     </div>
 
     <div id="a-fund" style="scroll-margin-top:60px"></div>
-    <div class="section-divider"><span>💰 个股主力资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:20</span></span></div>
+    <div class="section-divider"><span>💰 个股主力资金流向 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:32</span></span></div>
     <div style="font-size:11px;color:#6b7280;margin-bottom:10px">数据源：东方财富（延时约3分钟）· 主力=超大单+大单</div>
     <div class="flow-grid">
       <div class="ftw">
@@ -4437,7 +4423,7 @@
     </div>
 
     <div id="a-stocks" style="scroll-margin-top:60px"></div>
-    <div class="section-divider"><span>🏢 龙头个股表现 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:20</span></span></div>
+    <div class="section-divider"><span>🏢 龙头个股表现 <span class="section-time" style="font-size:0.6em; color:#999; font-weight:normal; margin-left:6px;">🕐 18:32</span></span></div>
     <div style="font-size:11px;color:#6b7280;margin-bottom:10px">K线：新浪财经（近60日）· 实时：东方财富 · 位置条为60日高低区间</div>
     
     <div style="margin-bottom:16px">
