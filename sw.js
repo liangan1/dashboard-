@@ -1,5 +1,5 @@
 // 美债看板 PWA Service Worker
-const const CACHE_NAME = 'treasury-dashboard-v3-20260825';
+const const const CACHE_NAME = 'treasury-dashboard-v4-20260825';
 const OFFLINE_URL = './index.html';
 
 self.addEventListener('install', (event) => {
