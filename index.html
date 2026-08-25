@@ -459,23 +459,23 @@
     <section class="overview">
             <div class="ov-card" style="border-top: 3px solid #00d4ff;">
               <div class="ov-label">2年期</div>
-              <div class="ov-value">4.249%</div>
-              <div class="ov-chg flat">+0.00 bp</div>
+              <div class="ov-value" id="ov-DGS2-val">4.249%</div>
+              <div class="ov-chg flat" id="ov-DGS2-chg">+0.00 bp</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #7c3aed;">
               <div class="ov-label">5年期</div>
-              <div class="ov-value">4.415%</div>
-              <div class="ov-chg up">+4.00 bp</div>
+              <div class="ov-value" id="ov-DGS5-val">4.415%</div>
+              <div class="ov-chg up" id="ov-DGS5-chg">+4.00 bp</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #f59e0b;">
               <div class="ov-label">10年期</div>
-              <div class="ov-value">4.708%</div>
-              <div class="ov-chg up">+4.00 bp</div>
+              <div class="ov-value" id="ov-DGS10-val">4.708%</div>
+              <div class="ov-chg up" id="ov-DGS10-chg">+4.00 bp</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #ef4444;">
               <div class="ov-label">30年期</div>
-              <div class="ov-value">5.237%</div>
-              <div class="ov-chg up">+4.00 bp</div>
+              <div class="ov-value" id="ov-DGS30-val">5.237%</div>
+              <div class="ov-chg up" id="ov-DGS30-chg">+4.00 bp</div>
             </div>
     </section>
 
@@ -513,23 +513,23 @@
     <section class="overview">
             <div class="ov-card" style="border-top: 3px solid #f7931a;">
               <div class="ov-label">比特币</div>
-              <div class="ov-value">$77,734</div>
-              <div class="ov-chg flat">—0 (0.00%)</div>
+              <div class="ov-value" id="ov-btc-val">$77,734</div>
+              <div class="ov-chg flat" id="ov-btc-chg">—0 (0.00%)</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #ffd700;">
               <div class="ov-label">黄金</div>
-              <div class="ov-value">$4,725</div>
-              <div class="ov-chg up">▲+27 (+0.58%)</div>
+              <div class="ov-value" id="ov-gold-val">$4,725</div>
+              <div class="ov-chg up" id="ov-gold-chg">▲+27 (+0.58%)</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #8b5cf6;">
               <div class="ov-label">原油WTI</div>
-              <div class="ov-value">$85.11</div>
-              <div class="ov-chg up">▲+0.10 (+0.12%)</div>
+              <div class="ov-value" id="ov-wti-val">$85.11</div>
+              <div class="ov-chg up" id="ov-wti-chg">▲+0.10 (+0.12%)</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #06b6d4;">
               <div class="ov-label">布伦特原油</div>
-              <div class="ov-value">$90.35</div>
-              <div class="ov-chg down">▼-2.32 (-2.50%)</div>
+              <div class="ov-value" id="ov-brent-val">$90.35</div>
+              <div class="ov-chg down" id="ov-brent-chg">▼-2.32 (-2.50%)</div>
             </div>
     </section>
 
@@ -544,23 +544,23 @@
 
             <div class="ov-card" style="border-top: 3px solid #3b82f6;">
               <div class="ov-label">道琼斯</div>
-              <div class="ov-value">53,417</div>
-              <div class="ov-chg up">▲0.26%</div>
+              <div class="ov-value" id="ov-DJI-val">53,417</div>
+              <div class="ov-chg up" id="ov-DJI-chg">▲0.26%</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #10b981;">
               <div class="ov-label">纳斯达克</div>
-              <div class="ov-value">25,980</div>
-              <div class="ov-chg up">▼0.76%</div>
+              <div class="ov-value" id="ov-IXIC-val">25,980</div>
+              <div class="ov-chg up" id="ov-IXIC-chg">▼0.76%</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #f59e0b;">
               <div class="ov-label">标普500</div>
-              <div class="ov-value">7,653</div>
-              <div class="ov-chg up">▼0.27%</div>
+              <div class="ov-value" id="ov-INX-val">7,653</div>
+              <div class="ov-chg up" id="ov-INX-chg">▼0.27%</div>
             </div>
             <div class="ov-card" style="border-top: 3px solid #ef4444;">
               <div class="ov-label">费城半导体</div>
-              <div class="ov-value">11,423</div>
-              <div class="ov-chg down">▼2.70%</div>
+              <div class="ov-value" id="ov-SOX-val">11,423</div>
+              <div class="ov-chg down" id="ov-SOX-chg">▼2.70%</div>
             </div>
     </section>
 
@@ -655,8 +655,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #00d4ff;">2年期 美债</div>
             <div class="tenor-yield">
-              <span class="yield-num">4.249%</span>
-              <span class="yield-chg flat">
+              <span class="yield-num" id="dgs-DGS2-yield">4.249%</span>
+              <span class="yield-chg flat" id="dgs-DGS2-chg">
                 <span class="chg-icon">—</span>+0.00 bp
               </span>
             </div>
@@ -664,17 +664,17 @@
           <div class="tenor-meta">
             <div class="meta-item">
               <span class="meta-label">52周最高</span>
-              <span class="meta-val high">4.37%</span>
+              <span class="meta-val high" id="dgs-DGS2-high">4.37%</span>
               <span class="meta-date">2026-07-23</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周最低</span>
-              <span class="meta-val low">3.38%</span>
+              <span class="meta-val low" id="dgs-DGS2-low">3.38%</span>
               <span class="meta-date">2026-02-27</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">3.76%</span>
+              <span class="meta-val" id="dgs-DGS2-avg">3.76%</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">数据点</span>
@@ -697,8 +697,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #7c3aed;">5年期 美债</div>
             <div class="tenor-yield">
-              <span class="yield-num">4.415%</span>
-              <span class="yield-chg up">
+              <span class="yield-num" id="dgs-DGS5-yield">4.415%</span>
+              <span class="yield-chg up" id="dgs-DGS5-chg">
                 <span class="chg-icon">▲</span>+4.00 bp
               </span>
             </div>
@@ -706,17 +706,17 @@
           <div class="tenor-meta">
             <div class="meta-item">
               <span class="meta-label">52周最高</span>
-              <span class="meta-val high">4.46%</span>
+              <span class="meta-val high" id="dgs-DGS5-high">4.46%</span>
               <span class="meta-date">2026-07-23</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周最低</span>
-              <span class="meta-val low">3.51%</span>
+              <span class="meta-val low" id="dgs-DGS5-low">3.51%</span>
               <span class="meta-date">2026-02-27</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">3.90%</span>
+              <span class="meta-val" id="dgs-DGS5-avg">3.90%</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">数据点</span>
@@ -739,8 +739,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #f59e0b;">10年期 美债</div>
             <div class="tenor-yield">
-              <span class="yield-num">4.708%</span>
-              <span class="yield-chg up">
+              <span class="yield-num" id="dgs-DGS10-yield">4.708%</span>
+              <span class="yield-chg up" id="dgs-DGS10-chg">
                 <span class="chg-icon">▲</span>+4.00 bp
               </span>
             </div>
@@ -748,17 +748,17 @@
           <div class="tenor-meta">
             <div class="meta-item">
               <span class="meta-label">52周最高</span>
-              <span class="meta-val high">4.75%</span>
+              <span class="meta-val high" id="dgs-DGS10-high">4.75%</span>
               <span class="meta-date">2026-07-31</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周最低</span>
-              <span class="meta-val low">3.97%</span>
+              <span class="meta-val low" id="dgs-DGS10-low">3.97%</span>
               <span class="meta-date">2025-10-22</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">4.29%</span>
+              <span class="meta-val" id="dgs-DGS10-avg">4.29%</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">数据点</span>
@@ -781,8 +781,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #ef4444;">30年期 美债</div>
             <div class="tenor-yield">
-              <span class="yield-num">5.237%</span>
-              <span class="yield-chg up">
+              <span class="yield-num" id="dgs-DGS30-yield">5.237%</span>
+              <span class="yield-chg up" id="dgs-DGS30-chg">
                 <span class="chg-icon">▲</span>+4.00 bp
               </span>
             </div>
@@ -790,17 +790,17 @@
           <div class="tenor-meta">
             <div class="meta-item">
               <span class="meta-label">52周最高</span>
-              <span class="meta-val high">5.31%</span>
+              <span class="meta-val high" id="dgs-DGS30-high">5.31%</span>
               <span class="meta-date">2026-08-17</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周最低</span>
-              <span class="meta-val low">4.54%</span>
+              <span class="meta-val low" id="dgs-DGS30-low">4.54%</span>
               <span class="meta-date">2025-10-22</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">4.87%</span>
+              <span class="meta-val" id="dgs-DGS30-avg">4.87%</span>
             </div>
             <div class="meta-item">
               <span class="meta-label">数据点</span>
@@ -848,13 +848,13 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #f7931a;">比特币（BTC/USD）</div>
             <div class="tenor-yield">
-              <span class="yield-num">$77,734</span>
-              <span class="yield-chg flat"><span class="chg-icon">—0 (0.00%)</span></span>
+              <span class="yield-num" id="cmd-CBBTCUSD-yield">$77,734</span>
+              <span class="yield-chg flat" id="cmd-CBBTCUSD-chg"><span class="chg-icon">—0 (0.00%)</span></span>
             </div>
             
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">$85,796</span>
+              <span class="meta-val" id="cmd-CBBTCUSD-avg">$85,796</span>
             </div>
             
             <div class="meta-item">
@@ -880,13 +880,13 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #ffd700;">黄金（XAU/USD）</div>
             <div class="tenor-yield">
-              <span class="yield-num">$4,725</span>
-              <span class="yield-chg up"><span class="chg-icon">▲+27 (+0.58%)</span></span>
+              <span class="yield-num" id="cmd-GOLD-yield">$4,725</span>
+              <span class="yield-chg up" id="cmd-GOLD-chg"><span class="chg-icon">▲+27 (+0.58%)</span></span>
             </div>
             
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">$4,274</span>
+              <span class="meta-val" id="cmd-GOLD-avg">$4,274</span>
             </div>
             
             <div class="meta-item">
@@ -912,13 +912,13 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #8b5cf6;">原油WTI（WTI Crude）</div>
             <div class="tenor-yield">
-              <span class="yield-num">$85.11</span>
-              <span class="yield-chg up"><span class="chg-icon">▲+0.10 (+0.12%)</span></span>
+              <span class="yield-num" id="cmd-DCOILWTICO-yield">$85.11</span>
+              <span class="yield-chg up" id="cmd-DCOILWTICO-chg"><span class="chg-icon">▲+0.10 (+0.12%)</span></span>
             </div>
             
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">$74.68</span>
+              <span class="meta-val" id="cmd-DCOILWTICO-avg">$74.68</span>
             </div>
             
             <div class="meta-item">
@@ -944,13 +944,13 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #06b6d4;">布伦特原油（Brent Crude）</div>
             <div class="tenor-yield">
-              <span class="yield-num">$90.35</span>
-              <span class="yield-chg down"><span class="chg-icon">▼-2.32 (-2.50%)</span></span>
+              <span class="yield-num" id="cmd-DCOILBRENTEU-yield">$90.35</span>
+              <span class="yield-chg down" id="cmd-DCOILBRENTEU-chg"><span class="chg-icon">▼-2.32 (-2.50%)</span></span>
             </div>
             
             <div class="meta-item">
               <span class="meta-label">52周均值</span>
-              <span class="meta-val">$80.15</span>
+              <span class="meta-val" id="cmd-DCOILBRENTEU-avg">$80.15</span>
             </div>
             
             <div class="meta-item">
@@ -1543,8 +1543,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #3b82f6;">道琼斯（Dow Jones）</div>
             <div class="tenor-yield">
-              <span class="yield-num">53,417</span>
-              <span class="yield-chg down"><span class="chg-icon">▼-1.83 (-1.97%)</span>518 (+0.98%)
+              <span class="yield-num" id="us-DJI-yield">53,417</span>
+              <span class="yield-chg down" id="us-DJI-chg"><span class="chg-icon">▼-1.83 (-1.97%)</span>518 (+0.98%)
               </span>
             </div>
           </div>
@@ -1583,8 +1583,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #10b981;">纳斯达克（NASDAQ）</div>
             <div class="tenor-yield">
-              <span class="yield-num">25,980</span>
-              <span class="yield-chg up">
+              <span class="yield-num" id="us-IXIC-yield">25,980</span>
+              <span class="yield-chg up" id="us-IXIC-chg">
                 <span class="chg-icon">▲</span>113 (+0.43%)
               </span>
             </div>
@@ -1624,8 +1624,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #f59e0b;">标普500（S&P 500）</div>
             <div class="tenor-yield">
-              <span class="yield-num">7,653</span>
-              <span class="yield-chg up">
+              <span class="yield-num" id="us-INX-yield">7,653</span>
+              <span class="yield-chg up" id="us-INX-chg">
                 <span class="chg-icon">▲</span>33 (+0.43%)
               </span>
             </div>
@@ -1665,8 +1665,8 @@
           <div class="tenor-header">
             <div class="tenor-title" style="color: #ef4444;">费城半导体（PHLX Semicon）</div>
             <div class="tenor-yield">
-              <span class="yield-num">11,423</span>
-              <span class="yield-chg down">
+              <span class="yield-num" id="us-SOX-yield">11,423</span>
+              <span class="yield-chg down" id="us-SOX-chg">
                 <span class="chg-icon">▼</span>60 (-0.51%)
               </span>
             </div>
@@ -4512,6 +4512,141 @@ const SECTOR_CHART_VALUES = [2.14, 1.29, 1.15, 0.93, 0.79, 0.65, 0.27, 0.11, 0.0
 const SECTOR_CHART_COLORS = ["#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#10b981", "#ef4444", "#ef4444"];
 const DEBT_DATES = ["2021-04-01", "2021-07-01", "2021-10-01", "2022-01-01", "2022-04-01", "2022-07-01", "2022-10-01", "2023-01-01", "2023-04-01", "2023-07-01", "2023-10-01", "2024-01-01", "2024-04-01", "2024-07-01", "2024-10-01", "2025-01-01", "2025-04-01", "2025-07-01", "2025-10-01", "2026-01-01"];
 const DEBT_VALUES = [28.53, 28.43, 29.62, 30.4, 30.57, 30.93, 31.42, 31.46, 32.33, 33.17, 34.0, 34.59, 34.83, 35.46, 36.22, 36.21, 36.21, 37.64, 38.51, 39.07];
+
+
+// ============ 动态卡片渲染 ============
+function fmtNum(n, decimals) {
+  if (decimals === undefined || decimals === null) decimals = 0;
+  return Number(n).toLocaleString('en-US', {minimumFractionDigits: decimals, maximumFractionDigits: decimals});
+}
+
+function renderDynamicCards() {
+  // --- 首页overview: 美股指数 ---
+  var usIdxMap = {DJI:'ov-DJI', IXIC:'ov-IXIC', INX:'ov-INX', SOX:'ov-SOX'};
+  Object.keys(usIdxMap).forEach(function(key) {
+    var prefix = usIdxMap[key];
+    var s = US_SERIES_DATA[key];
+    if (!s) return;
+    var valEl = document.getElementById(prefix + '-val');
+    var chgEl = document.getElementById(prefix + '-chg');
+    if (!valEl || !chgEl) return;
+    var dec = s.decimals || 0;
+    valEl.textContent = fmtNum(s.stats.latest, dec);
+    var pct = s.stats.change_pct;
+    var cls = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+    var arrow = pct > 0 ? '▲' : (pct < 0 ? '▼' : '—');
+    chgEl.className = 'ov-chg ' + cls;
+    chgEl.textContent = arrow + Math.abs(pct).toFixed(2) + '%';
+  });
+
+  // --- 首页overview: 商品 ---
+  var cmdMap = {CBBTCUSD:'ov-btc', GOLD:'ov-gold', DCOILWTICO:'ov-wti', DCOILBRENTEU:'ov-brent'};
+  Object.keys(cmdMap).forEach(function(key) {
+    var prefix = cmdMap[key];
+    var s = SERIES_DATA[key];
+    if (!s) return;
+    var valEl = document.getElementById(prefix + '-val');
+    var chgEl = document.getElementById(prefix + '-chg');
+    if (!valEl || !chgEl) return;
+    var prefix_str = s.yPrefix || '';
+    var suffix_str = s.ySuffix || '';
+    var dec = s.decimals !== undefined ? s.decimals : 2;
+    valEl.textContent = prefix_str + fmtNum(s.stats.latest, dec) + suffix_str;
+    var pct = s.stats.change_pct || 0;
+    var cls = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+    var arrow = pct > 0 ? '▲' : (pct < 0 ? '▼' : '—');
+    var chg = s.stats.change || 0;
+    chgEl.className = 'ov-chg ' + cls;
+    chgEl.textContent = arrow + prefix_str + fmtNum(Math.abs(chg), dec) + ' (' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%)';
+  });
+
+  // --- 首页overview: DGS收益率 ---
+  var dgsOvMap = {DGS2:'ov-DGS2', DGS5:'ov-DGS5', DGS10:'ov-DGS10', DGS30:'ov-DGS30'};
+  Object.keys(dgsOvMap).forEach(function(key) {
+    var prefix = dgsOvMap[key];
+    var s = SERIES_DATA[key];
+    if (!s) return;
+    var valEl = document.getElementById(prefix + '-val');
+    var chgEl = document.getElementById(prefix + '-chg');
+    if (!valEl || !chgEl) return;
+    valEl.textContent = s.stats.latest.toFixed(3) + '%';
+    var bp = s.stats.change_bp || 0;
+    var cls = bp > 0 ? 'up' : (bp < 0 ? 'down' : 'flat');
+    var arrow = bp > 0 ? '▲' : (bp < 0 ? '▼' : '—');
+    chgEl.className = 'ov-chg ' + cls;
+    chgEl.textContent = arrow + Math.abs(bp).toFixed(1) + ' bp';
+  });
+
+  // --- 美股Tab: 指数详情区块 ---
+  var usTabMap = {DJI:'us-DJI', IXIC:'us-IXIC', INX:'us-INX', SOX:'us-SOX'};
+  Object.keys(usTabMap).forEach(function(key) {
+    var prefix = usTabMap[key];
+    var s = US_SERIES_DATA[key];
+    if (!s) return;
+    var yieldEl = document.getElementById(prefix + '-yield');
+    var chgEl = document.getElementById(prefix + '-chg');
+    if (!yieldEl || !chgEl) return;
+    var dec = s.decimals || 0;
+    yieldEl.textContent = fmtNum(s.stats.latest, dec);
+    var pct = s.stats.change_pct;
+    var chg = s.stats.change;
+    var cls = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+    var arrow = pct > 0 ? '▲' : (pct < 0 ? '▼' : '—');
+    chgEl.className = 'yield-chg ' + cls;
+    chgEl.innerHTML = '<span class="chg-icon">' + arrow + '</span>' + fmtNum(Math.abs(chg), dec) + ' (' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%)';
+  });
+
+  // --- DGS Tab: 收益率详情 ---
+  var dgsTabMap = {DGS2:'dgs-DGS2', DGS5:'dgs-DGS5', DGS10:'dgs-DGS10', DGS30:'dgs-DGS30'};
+  Object.keys(dgsTabMap).forEach(function(key) {
+    var prefix = dgsTabMap[key];
+    var s = SERIES_DATA[key];
+    if (!s) return;
+    var yieldEl = document.getElementById(prefix + '-yield');
+    var chgEl = document.getElementById(prefix + '-chg');
+    var highEl = document.getElementById(prefix + '-high');
+    var lowEl = document.getElementById(prefix + '-low');
+    var avgEl = document.getElementById(prefix + '-avg');
+    if (yieldEl) yieldEl.textContent = s.stats.latest.toFixed(3) + '%';
+    if (chgEl) {
+      var bp = s.stats.change_bp || 0;
+      var cls = bp > 0 ? 'up' : (bp < 0 ? 'down' : 'flat');
+      var arrow = bp > 0 ? '▲' : (bp < 0 ? '▼' : '—');
+      chgEl.className = 'yield-chg ' + cls;
+      chgEl.innerHTML = '<span class="chg-icon">' + arrow + '</span>' + (bp >= 0 ? '+' : '') + bp.toFixed(1) + ' bp';
+    }
+    if (highEl) highEl.textContent = s.stats.high_52w.toFixed(2) + '%';
+    if (lowEl) lowEl.textContent = s.stats.low_52w.toFixed(2) + '%';
+    if (avgEl) avgEl.textContent = s.stats.avg_52w.toFixed(2) + '%';
+  });
+
+  // --- 商品Tab: 商品详情 ---
+  var cmdTabMap = {CBBTCUSD:'cmd-CBBTCUSD', GOLD:'cmd-GOLD', DCOILWTICO:'cmd-DCOILWTICO', DCOILBRENTEU:'cmd-DCOILBRENTEU'};
+  Object.keys(cmdTabMap).forEach(function(key) {
+    var prefix = cmdTabMap[key];
+    var s = SERIES_DATA[key];
+    if (!s) return;
+    var yieldEl = document.getElementById(prefix + '-yield');
+    var chgEl = document.getElementById(prefix + '-chg');
+    var avgEl = document.getElementById(prefix + '-avg');
+    var pfx = s.yPrefix || '';
+    var sfx = s.ySuffix || '';
+    var dec = s.decimals !== undefined ? s.decimals : 2;
+    if (yieldEl) yieldEl.textContent = pfx + fmtNum(s.stats.latest, dec) + sfx;
+    if (chgEl) {
+      var pct = s.stats.change_pct || 0;
+      var chg = s.stats.change || 0;
+      var cls = pct > 0 ? 'up' : (pct < 0 ? 'down' : 'flat');
+      var arrow = pct > 0 ? '▲' : (pct < 0 ? '▼' : '—');
+      chgEl.className = 'yield-chg ' + cls;
+      chgEl.innerHTML = '<span class="chg-icon">' + arrow + '</span>' + pfx + fmtNum(Math.abs(chg), dec) + ' (' + (pct >= 0 ? '+' : '') + pct.toFixed(2) + '%)';
+    }
+    if (avgEl) avgEl.textContent = pfx + fmtNum(s.stats.avg_52w, dec) + sfx;
+  });
+}
+
+// 页面加载完成后立即渲染动态卡片
+renderDynamicCards();
 
 const baseGrid = { left:'3%', right:'4%', bottom:'3%', top:'12%', containLabel:true };
 const axisStyle = {
