@@ -966,48 +966,217 @@
     <!-- 美股Tab吸顶子导航 -->
     <div class="subnav-spacer"></div>
     <div class="us-subnav" id="usSubnav">
-      <a href="#us-pulse" class="us-subnav-link active">🔥 市场脉搏</a>
+      <a href="#us-charts" class="us-subnav-link active">📈 指数走势</a>
+      <a href="#us-pulse" class="us-subnav-link">🔥 市场脉搏</a>
       <a href="#us-sector-flow" class="us-subnav-link">🏭 板块资金</a>
       <a href="#us-fund-flow" class="us-subnav-link">💰 个股资金</a>
       <a href="#us-sector-etf" class="us-subnav-link">📊 ETF</a>
-      <a href="#us-charts" class="us-subnav-link">📈 指数走势</a>
       <a href="#us-stocks" class="us-subnav-link">🏢 个股</a>
     </div>
+
+    <div id="us-charts" style="scroll-margin-top:60px"></div>
+    <div class="section-divider"><span>📊 指数详情与走势</span></div>
+
+        <section class="us-block" style="border-left: 4px solid #3b82f6;">
+          <div class="tenor-header">
+            <div class="tenor-title" style="color: #3b82f6;">道琼斯（Dow Jones）</div>
+            <div class="tenor-yield">
+              <span class="yield-num" id="us-DJI-yield">53,417</span>
+              <span class="yield-chg down" id="us-DJI-chg"><span class="chg-icon">▼-1.83 (-1.97%)</span>518 (+0.98%)
+              </span>
+            </div>
+          </div>
+          <div class="tenor-meta">
+            <div class="meta-item">
+              <span class="meta-label">52周最高</span>
+              <span class="meta-val high">54,744</span>
+              <span class="meta-date">2026-08-05</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周最低</span>
+              <span class="meta-val low">44,579</span>
+              <span class="meta-date">2025-08-21</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周均值</span>
+              <span class="meta-val">48,867</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">数据点</span>
+              <span class="meta-val">5697 个交易日</span>
+            </div>
+          </div>
+          <div class="tenor-charts">
+            <div class="chart-half">
+              <div class="chart-subtitle">近1年走势</div>
+              <div id="chart_DJI_1y" class="chart-tall"></div>
+            </div>
+            <div class="chart-half">
+              <div class="chart-subtitle">近30天放大</div>
+              <div id="chart_DJI_30d" class="chart-tall"></div>
+            </div>
+          </div>
+        </section>
+        <section class="us-block" style="border-left: 4px solid #10b981;">
+          <div class="tenor-header">
+            <div class="tenor-title" style="color: #10b981;">纳斯达克（NASDAQ）</div>
+            <div class="tenor-yield">
+              <span class="yield-num" id="us-IXIC-yield">25,980</span>
+              <span class="yield-chg up" id="us-IXIC-chg">
+                <span class="chg-icon">▲</span>113 (+0.43%)
+              </span>
+            </div>
+          </div>
+          <div class="tenor-meta">
+            <div class="meta-item">
+              <span class="meta-label">52周最高</span>
+              <span class="meta-val high">27,190</span>
+              <span class="meta-date">2026-06-01</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周最低</span>
+              <span class="meta-val low">20,690</span>
+              <span class="meta-date">2026-03-30</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周均值</span>
+              <span class="meta-val">23,879</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">数据点</span>
+              <span class="meta-val">5695 个交易日</span>
+            </div>
+          </div>
+          <div class="tenor-charts">
+            <div class="chart-half">
+              <div class="chart-subtitle">近1年走势</div>
+              <div id="chart_IXIC_1y" class="chart-tall"></div>
+            </div>
+            <div class="chart-half">
+              <div class="chart-subtitle">近30天放大</div>
+              <div id="chart_IXIC_30d" class="chart-tall"></div>
+            </div>
+          </div>
+        </section>
+        <section class="us-block" style="border-left: 4px solid #f59e0b;">
+          <div class="tenor-header">
+            <div class="tenor-title" style="color: #f59e0b;">标普500（S&P 500）</div>
+            <div class="tenor-yield">
+              <span class="yield-num" id="us-INX-yield">7,653</span>
+              <span class="yield-chg up" id="us-INX-chg">
+                <span class="chg-icon">▲</span>33 (+0.43%)
+              </span>
+            </div>
+          </div>
+          <div class="tenor-meta">
+            <div class="meta-item">
+              <span class="meta-label">52周最高</span>
+              <span class="meta-val high">7,817</span>
+              <span class="meta-date">2026-08-13</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周最低</span>
+              <span class="meta-val low">6,317</span>
+              <span class="meta-date">2026-03-30</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周均值</span>
+              <span class="meta-val">7,001</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">数据点</span>
+              <span class="meta-val">5698 个交易日</span>
+            </div>
+          </div>
+          <div class="tenor-charts">
+            <div class="chart-half">
+              <div class="chart-subtitle">近1年走势</div>
+              <div id="chart_INX_1y" class="chart-tall"></div>
+            </div>
+            <div class="chart-half">
+              <div class="chart-subtitle">近30天放大</div>
+              <div id="chart_INX_30d" class="chart-tall"></div>
+            </div>
+          </div>
+        </section>
+        <section class="us-block" style="border-left: 4px solid #ef4444;">
+          <div class="tenor-header">
+            <div class="tenor-title" style="color: #ef4444;">费城半导体（PHLX Semicon）</div>
+            <div class="tenor-yield">
+              <span class="yield-num" id="us-SOX-yield">11,423</span>
+              <span class="yield-chg down" id="us-SOX-chg">
+                <span class="chg-icon">▼</span>60 (-0.51%)
+              </span>
+            </div>
+          </div>
+          <div class="tenor-meta">
+            <div class="meta-item">
+              <span class="meta-label">52周最高</span>
+              <span class="meta-val high">14,655</span>
+              <span class="meta-date">2026-06-22</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周最低</span>
+              <span class="meta-val low">5,503</span>
+              <span class="meta-date">2025-09-02</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">52周均值</span>
+              <span class="meta-val">8,949</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">数据点</span>
+              <span class="meta-val">3167 个交易日</span>
+            </div>
+          </div>
+          <div class="tenor-charts">
+            <div class="chart-half">
+              <div class="chart-subtitle">近1年走势</div>
+              <div id="chart_SOX_1y" class="chart-tall"></div>
+            </div>
+            <div class="chart-half">
+              <div class="chart-subtitle">近30天放大</div>
+              <div id="chart_SOX_30d" class="chart-tall"></div>
+            </div>
+          </div>
+        </section>
+
+
+        <section class="us-block" style="border-left: 4px solid #f97316;">
+          <div class="tenor-header">
+            <div>
+              <div class="tenor-title" style="color: #f97316;">VIX 恐慌指数趋势（VIXY 代理）</div>
+              <div style="font-size:11px;color:#6b7280;margin-top:4px;">VIXY为VIX短期期货ETF，用于观察波动率趋势方向</div>
+            </div>
+            <div class="tenor-yield">
+              <div style="text-align:right;">
+                <div class="yield-num" style="font-size:24px;">$18.21</div>
+                <div class="yield-chg down" style="font-size:12px;">▼-1.25%</div>
+              </div>
+            </div>
+          </div>
+          <div class="tenor-charts">
+            <div class="chart-half">
+              <div class="chart-subtitle">近1年走势</div>
+              <div id="chart_VIXY_1y" class="chart-tall"></div>
+            </div>
+            <div class="chart-half">
+              <div class="chart-subtitle">近30天放大</div>
+              <div id="chart_VIXY_30d" class="chart-tall"></div>
+            </div>
+          </div>
+        </section>
+
 
     <!-- 一屏可见的市场脉搏 -->
     <div id="us-pulse" style="scroll-margin-top:60px">
       <div class="section-divider"><span>🔥 市场脉搏</span></div>
       <div class="us-rt-time">数据更新: 2026-08-26 · 延时约3分钟 · 1400只标的聚合</div>
       
-      <!-- 核心指数 + VIX 横向条 -->
-      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px">
-        <div class="ov-card" style="border-top:3px solid #3b82f6;padding:10px">
-          <div class="ov-label" style="font-size:11px">道琼斯</div>
-          <div class="ov-value" style="font-size:18px">53,417</div>
-          <div class="ov-chg up" style="font-size:12px">▲0.26%</div>
-        </div>
-        <div class="ov-card" style="border-top:3px solid #10b981;padding:10px">
-          <div class="ov-label" style="font-size:11px">纳斯达克</div>
-          <div class="ov-value" style="font-size:18px">25,980</div>
-          <div class="ov-chg up" style="font-size:12px">▼0.76%</div>
-        </div>
-        <div class="ov-card" style="border-top:3px solid #f59e0b;padding:10px">
-          <div class="ov-label" style="font-size:11px">标普500</div>
-          <div class="ov-value" style="font-size:18px">7,653</div>
-          <div class="ov-chg up" style="font-size:12px">▼0.27%</div>
-        </div>
-        <div class="ov-card" style="border-top:3px solid #ef4444;padding:10px">
-          <div class="ov-label" style="font-size:11px">费半</div>
-          <div class="ov-value" style="font-size:18px">11,740</div>
-          <div class="ov-chg down" style="font-size:12px">▼0.51%</div>
-        </div>
-        <div class="ov-card" style="border-top:3px solid #f59e0b;padding:10px;background:rgba(245,158,11,.05)">
-          <div class="ov-label" style="font-size:11px">😱 VIX</div>
-          <div class="ov-value" style="font-size:18px;color:#f59e0b">21.67</div>
-          <div class="ov-chg" style="font-size:12px;color:#f59e0b">偏高</div>
-        </div>
-      </div>
       
+      <!-- 科技赛道速览（动态注入） -->
+      <div id="us-tech-track"></div>
+
       <!-- 板块资金热力图 -->
       <div style="font-size:13px;font-weight:600;color:#9ca3af;margin-bottom:8px;padding-left:2px">行业板块资金热力图（主力净流入 亿元）</div>
       <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:14px">
@@ -1519,199 +1688,6 @@
 
 
     
-    <div id="us-charts" style="scroll-margin-top:60px"></div>
-    <div class="section-divider"><span>📊 指数详情与走势</span></div>
-
-        <section class="us-block" style="border-left: 4px solid #3b82f6;">
-          <div class="tenor-header">
-            <div class="tenor-title" style="color: #3b82f6;">道琼斯（Dow Jones）</div>
-            <div class="tenor-yield">
-              <span class="yield-num" id="us-DJI-yield">53,417</span>
-              <span class="yield-chg down" id="us-DJI-chg"><span class="chg-icon">▼-1.83 (-1.97%)</span>518 (+0.98%)
-              </span>
-            </div>
-          </div>
-          <div class="tenor-meta">
-            <div class="meta-item">
-              <span class="meta-label">52周最高</span>
-              <span class="meta-val high">54,744</span>
-              <span class="meta-date">2026-08-05</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周最低</span>
-              <span class="meta-val low">44,579</span>
-              <span class="meta-date">2025-08-21</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周均值</span>
-              <span class="meta-val">48,867</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">数据点</span>
-              <span class="meta-val">5697 个交易日</span>
-            </div>
-          </div>
-          <div class="tenor-charts">
-            <div class="chart-half">
-              <div class="chart-subtitle">近1年走势</div>
-              <div id="chart_DJI_1y" class="chart-tall"></div>
-            </div>
-            <div class="chart-half">
-              <div class="chart-subtitle">近30天放大</div>
-              <div id="chart_DJI_30d" class="chart-tall"></div>
-            </div>
-          </div>
-        </section>
-        <section class="us-block" style="border-left: 4px solid #10b981;">
-          <div class="tenor-header">
-            <div class="tenor-title" style="color: #10b981;">纳斯达克（NASDAQ）</div>
-            <div class="tenor-yield">
-              <span class="yield-num" id="us-IXIC-yield">25,980</span>
-              <span class="yield-chg up" id="us-IXIC-chg">
-                <span class="chg-icon">▲</span>113 (+0.43%)
-              </span>
-            </div>
-          </div>
-          <div class="tenor-meta">
-            <div class="meta-item">
-              <span class="meta-label">52周最高</span>
-              <span class="meta-val high">27,190</span>
-              <span class="meta-date">2026-06-01</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周最低</span>
-              <span class="meta-val low">20,690</span>
-              <span class="meta-date">2026-03-30</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周均值</span>
-              <span class="meta-val">23,879</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">数据点</span>
-              <span class="meta-val">5695 个交易日</span>
-            </div>
-          </div>
-          <div class="tenor-charts">
-            <div class="chart-half">
-              <div class="chart-subtitle">近1年走势</div>
-              <div id="chart_IXIC_1y" class="chart-tall"></div>
-            </div>
-            <div class="chart-half">
-              <div class="chart-subtitle">近30天放大</div>
-              <div id="chart_IXIC_30d" class="chart-tall"></div>
-            </div>
-          </div>
-        </section>
-        <section class="us-block" style="border-left: 4px solid #f59e0b;">
-          <div class="tenor-header">
-            <div class="tenor-title" style="color: #f59e0b;">标普500（S&P 500）</div>
-            <div class="tenor-yield">
-              <span class="yield-num" id="us-INX-yield">7,653</span>
-              <span class="yield-chg up" id="us-INX-chg">
-                <span class="chg-icon">▲</span>33 (+0.43%)
-              </span>
-            </div>
-          </div>
-          <div class="tenor-meta">
-            <div class="meta-item">
-              <span class="meta-label">52周最高</span>
-              <span class="meta-val high">7,817</span>
-              <span class="meta-date">2026-08-13</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周最低</span>
-              <span class="meta-val low">6,317</span>
-              <span class="meta-date">2026-03-30</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周均值</span>
-              <span class="meta-val">7,001</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">数据点</span>
-              <span class="meta-val">5698 个交易日</span>
-            </div>
-          </div>
-          <div class="tenor-charts">
-            <div class="chart-half">
-              <div class="chart-subtitle">近1年走势</div>
-              <div id="chart_INX_1y" class="chart-tall"></div>
-            </div>
-            <div class="chart-half">
-              <div class="chart-subtitle">近30天放大</div>
-              <div id="chart_INX_30d" class="chart-tall"></div>
-            </div>
-          </div>
-        </section>
-        <section class="us-block" style="border-left: 4px solid #ef4444;">
-          <div class="tenor-header">
-            <div class="tenor-title" style="color: #ef4444;">费城半导体（PHLX Semicon）</div>
-            <div class="tenor-yield">
-              <span class="yield-num" id="us-SOX-yield">11,423</span>
-              <span class="yield-chg down" id="us-SOX-chg">
-                <span class="chg-icon">▼</span>60 (-0.51%)
-              </span>
-            </div>
-          </div>
-          <div class="tenor-meta">
-            <div class="meta-item">
-              <span class="meta-label">52周最高</span>
-              <span class="meta-val high">14,655</span>
-              <span class="meta-date">2026-06-22</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周最低</span>
-              <span class="meta-val low">5,503</span>
-              <span class="meta-date">2025-09-02</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">52周均值</span>
-              <span class="meta-val">8,949</span>
-            </div>
-            <div class="meta-item">
-              <span class="meta-label">数据点</span>
-              <span class="meta-val">3167 个交易日</span>
-            </div>
-          </div>
-          <div class="tenor-charts">
-            <div class="chart-half">
-              <div class="chart-subtitle">近1年走势</div>
-              <div id="chart_SOX_1y" class="chart-tall"></div>
-            </div>
-            <div class="chart-half">
-              <div class="chart-subtitle">近30天放大</div>
-              <div id="chart_SOX_30d" class="chart-tall"></div>
-            </div>
-          </div>
-        </section>
-
-
-        <section class="us-block" style="border-left: 4px solid #f97316;">
-          <div class="tenor-header">
-            <div>
-              <div class="tenor-title" style="color: #f97316;">VIX 恐慌指数趋势（VIXY 代理）</div>
-              <div style="font-size:11px;color:#6b7280;margin-top:4px;">VIXY为VIX短期期货ETF，用于观察波动率趋势方向</div>
-            </div>
-            <div class="tenor-yield">
-              <div style="text-align:right;">
-                <div class="yield-num" style="font-size:24px;">$18.21</div>
-                <div class="yield-chg down" style="font-size:12px;">▼-1.25%</div>
-              </div>
-            </div>
-          </div>
-          <div class="tenor-charts">
-            <div class="chart-half">
-              <div class="chart-subtitle">近1年走势</div>
-              <div id="chart_VIXY_1y" class="chart-tall"></div>
-            </div>
-            <div class="chart-half">
-              <div class="chart-subtitle">近30天放大</div>
-              <div id="chart_VIXY_30d" class="chart-tall"></div>
-            </div>
-          </div>
-        </section>
-
     
     <div id="us-stocks" style="scroll-margin-top:60px"></div>
     <div class="section-divider"><span>🏢 典型个股表现</span></div>
