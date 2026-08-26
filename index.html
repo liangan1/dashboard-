@@ -68,8 +68,8 @@
   .toast.show { opacity: 1; transform: translate(-50%,-50%) scale(1); }
 
   /* ===== Tab 页面 ===== */
-  .tab-page { display: none; padding-bottom: 16px; }
-  .tab-page.active { display: block; }
+  .tab-page { display: none !important; padding-bottom: 16px; }
+  .tab-page.active { display: block !important; }
 
   /* ===== 底部 Tab 栏 ===== */
   .tab-bar {
@@ -959,6 +959,10 @@
 
   <!-- Tab 4: 美股 -->
   <div class="tab-page" id="page-us-stocks">
+    <div style="background:#1e3a5f;color:#60a5fa;padding:12px 20px;border-radius:10px;margin:12px 0;font-size:14px;font-weight:600;text-align:center;border:2px solid #3b82f6;">
+      🔵 这是美股Tab — 如果您看到这段蓝色文字，说明美股Tab没有被正确隐藏
+    </div>
+
     <div class="tab-update-info" style="font-size: 0.75em; color: #888; text-align: right; padding: 4px 12px 0;">
       <span class="tab-update-time" data-tab="us_stocks">上次更新: 08-26 08:50</span>
     </div>
@@ -1979,6 +1983,10 @@
   
 
     <div class="tab-page" id="page-a-shares">
+    <div style="background:linear-gradient(90deg,#ef4444,#f97316);color:#fff;padding:16px 20px;border-radius:12px;margin:12px 0;font-size:16px;font-weight:700;text-align:center;box-shadow:0 4px 20px rgba(239,68,68,.4);">
+      ✅ A股数据区 — 如果您看到这段橙红色文字，说明A股Tab显示正确！数据时间: 2026-08-26 18:02
+    </div>
+
     <div style="font-size: 0.7em; color: #888; text-align: right; padding: 2px 8px; margin-top: -4px; margin-bottom: 4px;">
     数据时间: 2026-08-26 18:02:54 | <span style="color: #22c55e;">✅</span>
 </div>
