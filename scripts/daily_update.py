@@ -21,6 +21,7 @@ from datetime import datetime, timedelta
 BASE_DIR = '/Coze/Drive/金融分析'
 DASHBOARD_DIR = '/Coze/Drive/扣子/treasury_dashboard'
 INDEX_HTML = os.path.join(DASHBOARD_DIR, 'index.html')
+A_SHARES_HTML = os.path.join(DASHBOARD_DIR, 'a-shares.html')
 SW_JS = os.path.join(DASHBOARD_DIR, 'sw.js')
 DEPLOY_CONFIG = os.path.join(DASHBOARD_DIR, 'deploy_config.json')
 A_DATA = os.path.join(BASE_DIR, 'a_share_data.json')
@@ -1285,6 +1286,120 @@ def inject_a_shares(html, d, sp):
         log(f"  首页 {gidx['name']} 概览已更新")
 
     return html
+
+
+# ============================================================
+#  独立 A 股页面生成（供 iframe 加载）
+# ============================================================
+
+A_SHARES_TEMPLATE = """<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>A股资金看板</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #0a0e17; color: #e5e7eb; min-height: 100vh;
+  padding: 8px 12px 80px;
+}
+.section-divider { margin: 16px 0 8px; font-size: 15px; font-weight: 700; }
+.section-time { font-size: 0.6em; color: #999; font-weight: normal; margin-left: 6px; }
+.us-rt-time { font-size: 0.7em; color: #888; margin-bottom: 8px; }
+.us-subnav { display:flex; gap:8px; overflow-x:auto; padding:8px 0; margin-bottom:12px; border-bottom:1px solid rgba(255,255,255,0.08); position:sticky; top:0; background:#0a0e17; z-index:10; }
+.us-subnav-link { font-size:12px; color:#9ca3af; text-decoration:none; white-space:nowrap; padding:4px 10px; border-radius:16px; background:rgba(255,255,255,0.04); }
+.us-subnav-link.active { color:#fff; background:rgba(59,130,246,0.3); }
+.subnav-spacer { height:0; }
+.tab-update-info { display:none; }
+.ftab { width:100%; border-collapse:collapse; font-size:12px; }
+.ftab th { text-align:left; color:#9ca3af; font-weight:600; padding:6px 8px; border-bottom:1px solid rgba(255,255,255,0.08); }
+.ftab td { padding:6px 8px; border-bottom:1px solid rgba(255,255,255,0.04); }
+.h-scroll-wrap { overflow-x:auto; }
+.schg { font-size:11px; font-weight:600; }
+.up { color:#ef4444; }
+.down { color:#22c55e; }
+.sspk { height:32px; margin:2px 0; }
+.smeta { display:flex; justify-content:space-between; font-size:9px; color:#6b7280; }
+</style>
+</head>
+<body>
+<h2 style="font-size:18px;font-weight:700;margin:8px 0 4px;color:#f87171;">🇨🇳 A股资金流向</h2>
+__BODY__
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+<script>
+__SPARK_JS__
+function initASparks(){
+  if (typeof ASPARK === 'undefined') return;
+  Object.keys(ASPARK).forEach(function(sym){
+    var el=document.getElementById('aspark_'+sym);
+    if(!el||el.getAttribute('data-rendered'))return;
+    var d=ASPARK[sym];
+    if(!d||!d.c||!d.c.length)return;
+    var chart=echarts.init(el,null,{renderer:'canvas'});
+    var up=d.c[d.c.length-1]>=d.c[0];
+    var color=up?'#ef4444':'#22c55e';
+    chart.setOption({
+      grid:{left:0,right:0,top:2,bottom:2},
+      xAxis:{type:'category',show:false,data:d.d},
+      yAxis:{type:'value',show:false,scale:true},
+      series:[{type:'line',data:d.c,smooth:true,symbol:'none',lineStyle:{width:1.5,color:color},
+        areaStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:color+'44'},{offset:1,color:color+'00'}])}}]
+    });
+    el.setAttribute('data-rendered','1');
+    window.addEventListener('resize',function(){chart.resize()});
+  });
+}
+initASparks();
+</script>
+<script>
+// subnav scroll spy
+(function(){
+  var links=document.querySelectorAll('#aSubnav .us-subnav-link');
+  if(!links.length)return;
+  var sections=[];
+  links.forEach(function(link){
+    var href=link.getAttribute('href');
+    if(href&&href.charAt(0)==='#'){
+      var el=document.querySelector(href);
+      if(el)sections.push({el:el,link:link});
+    }
+  });
+  function onScroll(){
+    var pos=window.scrollY+60;
+    var active=sections[0];
+    sections.forEach(function(s){ if(s.el.offsetTop<=pos) active=s; });
+    links.forEach(function(l){l.classList.remove('active');});
+    if(active) active.link.classList.add('active');
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  links.forEach(function(link){
+    link.addEventListener('click',function(e){
+      e.preventDefault();
+      var target=document.querySelector(link.getAttribute('href'));
+      if(target) window.scrollTo({top:target.offsetTop-50,behavior:'smooth'});
+    });
+  });
+})();
+</script>
+</body>
+</html>"""
+
+
+def write_a_shares_page(d, sp):
+    """生成独立的 a-shares.html（iframe 加载用），与主看板A股Tab保持同步。"""
+    try:
+        a_tab_inner = build_a_share_tab(d, sp)
+        spark_js = 'var ASPARK=' + json.dumps(sp.get('stocks', {}), ensure_ascii=False) + ';'
+        html = A_SHARES_TEMPLATE.replace('__BODY__', a_tab_inner).replace('__SPARK_JS__', spark_js)
+        with open(A_SHARES_HTML, 'w', encoding='utf-8') as f:
+            f.write(html)
+        log(f"  已生成独立A股页面 a-shares.html ({len(html):,} 字符)")
+        return True
+    except Exception as e:
+        log(f"  ⚠️ 生成 a-shares.html 失败: {e}")
+        return False
 
 
 # ============================================================
@@ -2615,6 +2730,7 @@ def mode_morning():
     if a_ok:
         a_d = load_json(A_DATA)
         html = inject_a_shares(html, a_d, a_sp)
+        write_a_shares_page(a_d, a_sp)
         log("  A股数据注入完成")
     else:
         log("  A股未更新，保留旧数据")
@@ -2708,6 +2824,7 @@ def mode_noon():
         log("  已清除内存中的北向资金旧数据（等18:00刷新）")
     
     html = inject_a_shares(html, a_d, a_sp)
+    write_a_shares_page(a_d, a_sp)
     log("  A股数据注入完成")
 
     # --- 补充注入集合竞价数据（如果存在）---
@@ -2808,6 +2925,7 @@ def mode_evening():
     a_d = load_json(A_DATA)
     a_sp = load_json(A_SPARK) if os.path.exists(A_SPARK) else {'stocks': {}}
     html = inject_a_shares(html, a_d, a_sp)
+    write_a_shares_page(a_d, a_sp)
     log("  A股数据注入完成")
 
     # 2.5 采集今日成交额+上证到历史（量价趋势）
@@ -3157,6 +3275,7 @@ def mode_northbound_refresh():
 
     a_sp = load_json(A_SPARK) if os.path.exists(A_SPARK) else {'stocks': {}}
     html = inject_a_shares(html, a_d, a_sp)
+    write_a_shares_page(a_d, a_sp)
     log("  北向资金数据注入完成")
 
     # 更新A股Tab时间戳
