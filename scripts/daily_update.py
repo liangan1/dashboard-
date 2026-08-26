@@ -778,34 +778,6 @@ def build_a_share_tab(d, sp):
     </div>
 '''
 
-    # --- Build north_flow HTML (同花顺净流向) ---
-    _nf = d.get('north_flow')
-    _north_flow_section = ''
-    if _nf:
-        _hgt_net = _nf.get('hgt_net', 0)
-        _sgt_net = _nf.get('sgt_net')
-        _total_net = _hgt_net + (_sgt_net if _sgt_net is not None else 0)
-        _sgt_text = f'{_sgt_net:+.2f}亿' if _sgt_net is not None else 'N/A'
-        _sgt_note = ' <span style="font-size:9px;color:#f59e0b">(估算)</span>' if _nf.get('sgt_reliable') == False and _sgt_net is not None else ''
-        _north_flow_section = f'''
-    <div style="background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.12);border-radius:8px;padding:10px;margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="font-size:12px;font-weight:600;color:#8b5cf6">💹 北向净流向（当日）</span>
-        <span style="font-size:13px;font-weight:700;color:{color_flow(_total_net)}">{_total_net:+.2f}亿</span>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px">
-          <div style="font-size:10px;color:#9ca3af">沪股通</div>
-          <div style="font-size:16px;font-weight:700;color:{color_flow(_hgt_net)}">{_hgt_net:+.2f}亿</div>
-        </div>
-        <div style="background:rgba(255,255,255,.03);border-radius:6px;padding:8px">
-          <div style="font-size:10px;color:#9ca3af">深股通{_sgt_note}</div>
-          <div style="font-size:16px;font-weight:700;color:{color_flow(_sgt_net) if _sgt_net is not None else '#9ca3af'}">{_sgt_text}</div>
-        </div>
-      </div>
-      <div style="font-size:9px;color:#6b7280;margin-top:6px">数据来源: 同花顺 · 沪股通完整 · 深股通因政策调整仅部分披露</div>
-    </div>
-'''
 
     # --- Build ETF flow HTML ---
     _etf_rows = ''
@@ -876,10 +848,9 @@ def build_a_share_tab(d, sp):
       <!-- 北向成交 & ETF资金 -->
       <div style="margin-bottom:12px">
         <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
-          <span style="font-size:13px;font-weight:600;color:#9ca3af">📊 北向资金（成交额趋势 · 净流向 · ETF）</span>
+          <span style="font-size:13px;font-weight:600;color:#9ca3af">📊 北向资金（成交额趋势 · ETF）</span>
         </div>
         {_north_deal_section}
-        {_north_flow_section}
         {_etf_section}
       </div>
 
@@ -3166,15 +3137,12 @@ def mode_northbound_refresh():
     # 2. 检查北向数据是否是今天的
     today = TODAY
     nd = a_d.get('north_deal')
-    nf = a_d.get('north_flow')
     nd_date = nd.get('date', '') if nd else ''
-    nf_date = nf.get('date', '') if nf else ''
 
     log(f"  北向成交额日期: {nd_date or '无数据'}")
-    log(f"  北向净流向日期: {nf_date or '无数据'}")
 
-    if nd_date != today and nf_date != today:
-        log(f"  ⚠️ 北向数据仍为旧数据（非{today}），不注入，等下次刷新")
+    if nd_date != today:
+        log(f"  ⚠️ 北向成交额仍为旧数据（非{today}），不注入，等下次刷新")
         return
 
     # 额外校验：如果成交额为0，说明API返回的是无效数据
