@@ -1097,17 +1097,31 @@ def inject_a_shares(html, d, sp):
         candidates = [p for p in [next_tab, tab_bar] if p != -1]
         a_end = min(candidates) if candidates else len(html)
         old_block = html[a_start:a_end]
-        new_block = f'<div class="tab-page" id="page-a-shares">\n{a_tab_inner}\n  </div>\n  </div>\n\n    '
+        # A股Tab使用iframe加载独立页面，避免div嵌套问题
+        iframe_id = 'a-shares-frame'
+        new_block = (
+            f'<div class="tab-page" id="page-a-shares">\n'
+            f'  <iframe id="{iframe_id}" src="a-shares.html?v={TODAY}" '
+            f'style="width:100%;height:calc(100vh - 70px);border:none;display:block;" '
+            f'loading="eager"></iframe>\n'
+            f'</div>\n\n    '
+        )
         html = html[:a_start] + new_block + html[a_end:]
-        log("  已替换现有 #page-a-shares 内容（含 container 闭合）")
+        log("  已替换 #page-a-shares 为 iframe（加载 a-shares.html）")
     else:
         # 首次注入：替换 page-more
         more_start = html.find('<div class="tab-page" id="page-more">')
         if more_start != -1:
             tab_bar_pos = html.find('<nav class="tab-bar"', more_start)
-            new_block = f'<div class="tab-page" id="page-a-shares">\n{a_tab_inner}\n  </div>\n  </div>\n\n    '
+            new_block = (
+                f'<div class="tab-page" id="page-a-shares">\n'
+                f'  <iframe id="a-shares-frame" src="a-shares.html?v={TODAY}" '
+                f'style="width:100%;height:calc(100vh - 70px);border:none;display:block;" '
+                f'loading="eager"></iframe>\n'
+                f'</div>\n\n    '
+            )
             html = html[:more_start] + new_block + html[tab_bar_pos:]
-            log("  首次注入：替换 #page-more（含 container 闭合）")
+            log("  首次注入：替换 #page-more 为 iframe")
         else:
             log("  ❌ 找不到 #page-a-shares 也找不到 #page-more!")
             return html
@@ -1171,13 +1185,10 @@ def inject_a_shares(html, d, sp):
             html = html[:last_script] + init_js + '\n    ' + html[last_script:]
             log("  新增 initASparks 函数")
 
-    # 确保 tab 切换时调用 initASparks
-    if "target === 'a-shares') initASparks()" not in html and "target === 'a-shares')" not in html:
-        old_switch = "if (target === 'us-stocks') { initUsCharts(); initSparks(); }"
-        new_switch = old_switch + "\n    if (target === 'a-shares') initASparks();"
-        if old_switch in html:
-            html = html.replace(old_switch, new_switch, 1)
-            log("  新增 A 股 tab 切换调用")
+    # A股通过iframe加载，initASparks在iframe内自行初始化，主页面无需注入
+    # 移除可能残留的 initASparks 切换调用
+    html = html.replace("\n    if (target === 'a-shares') initASparks();", "")
+    html = html.replace(" if (target === 'a-shares') initASparks();", "")
 
     # --- 5. 确保 subnav scroll spy 存在 ---
     if 'aSubnav' not in html or '#aSubnav .us-subnav-link' not in html:
