@@ -2757,7 +2757,7 @@ def mode_morning():
     # 9. 推送 GitHub
     log("--- 6. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: morning {TODAY}{val_suffix}"
     )
 
@@ -2868,7 +2868,7 @@ def mode_noon():
     # 6. 推送
     log("--- 4. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: noon {TODAY}{val_suffix}"
     )
 
@@ -2993,7 +2993,7 @@ def mode_evening():
     # 6. 推送
     log("--- 4. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: evening {TODAY}{val_suffix}"
     )
 
@@ -3295,7 +3295,7 @@ def mode_northbound_refresh():
     # 6. 推送
     log("--- 4. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: northbound {TODAY}{val_suffix}"
     )
     verify_github_push()
