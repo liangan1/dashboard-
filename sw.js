@@ -1,5 +1,5 @@
 // 美债看板 PWA Service Worker
-const CACHE_NAME = 'treasury-dashboard-commodity-20260827-0642';
+const CACHE_NAME = 'treasury-dashboard-iframe-fix-20260827-0650';
 const OFFLINE_URL = './index.html';
 
 self.addEventListener('install', (event) => {
@@ -21,6 +21,7 @@ self.addEventListener('activate', (event) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k))
+
       );
     }).then(() => self.clients.claim())
   );
