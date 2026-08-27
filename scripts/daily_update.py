@@ -1516,6 +1516,114 @@ def inject_auction(html, data):
     return html
 
 
+def inject_auction_into_a_shares_page(data):
+    """将集合竞价数据注入独立a-shares.html页面（iframe加载用）
+    a-shares.html的注入点与index.html不同（a-pulse内第一个grid不是repeat(3,1fr)），
+    所以这里用独立的注入逻辑：在us-rt-time div之后插入。"""
+    if not os.path.exists(A_SHARES_HTML):
+        log(f"  ⚠️ a-shares.html 不存在，跳过竞价注入")
+        return
+    with open(A_SHARES_HTML, 'r', encoding='utf-8') as f:
+        html = f.read()
+
+    # 先移除旧的竞价区块
+    if 'id="auction-block"' in html:
+        start = html.find('<div id="auction-block"')
+        if start != -1:
+            depth, pos = 0, start
+            while pos < len(html):
+                next_open = html.find('<div', pos)
+                next_close = html.find('</div>', pos)
+                if next_close == -1: break
+                if next_open != -1 and next_open < next_close:
+                    depth += 1; pos = next_open + 4
+                else:
+                    depth -= 1; pos = next_close + 6
+                    if depth == 0:
+                        html = html[:start] + html[pos:]
+                        log(f"  已移除旧竞价区块")
+                        break
+
+    if not data or not data.get('indices'):
+        log(f"  ⚠️ 竞价数据为空，跳过a-shares.html注入")
+        with open(A_SHARES_HTML, 'w', encoding='utf-8') as f:
+            f.write(html)
+        return
+
+    indices = data.get('indices', {})
+    stats = data.get('stats', {})
+    top_gap_up = data.get('top_gap_up', [])
+    fetch_time = data.get('fetch_time', '')
+
+    idx_lines = ''
+    for code in ['sh000001', 'sz399001', 'sz399006']:
+        idx = indices.get(code, {})
+        if not idx: continue
+        name = idx['name']
+        gap_pct = idx.get('gap_pct', 0)
+        gap_color = '#ef4444' if gap_pct > 0 else ('#22c55e' if gap_pct < 0 else '#9ca3af')
+        arrow = '▲' if gap_pct > 0 else ('▼' if gap_pct < 0 else '—')
+        idx_lines += f'''<div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0">
+          <span style="font-size:12px;color:#e5e7eb">{name}</span>
+          <span style="font-size:12px;font-weight:600;color:{gap_color}">{arrow}{gap_pct:+.2f}%</span>
+        </div>'''
+
+    gap_up_cnt = stats.get('gap_up_count', 0)
+    gap_down_cnt = stats.get('gap_down_count', 0)
+    flat_cnt = stats.get('flat_count', 0)
+
+    top5_lines = ''
+    for s in top_gap_up[:5]:
+        gap_color = '#ef4444' if s.get('gap_pct', 0) > 0 else '#22c55e'
+        top5_lines += f'''<div style="display:flex;justify-content:space-between;padding:2px 0;font-size:11px">
+          <span style="color:#e5e7eb">{s['name']}</span>
+          <span style="color:{gap_color};font-weight:600">{s.get('gap_pct',0):+.2f}%</span>
+        </div>'''
+
+    auction_block = f'''
+      <div id="auction-block" style="scroll-margin-top:60px;margin-bottom:12px">
+        <div style="background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.2);border-radius:10px;padding:12px">
+          <div style="font-size:13px;font-weight:700;color:#fbbf24;margin-bottom:8px">🔔 集合竞价（9:25）</div>
+          <div style="font-size:10px;color:#6b7280;margin-bottom:8px">{fetch_time}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div>
+              <div style="font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:4px">指数竞价</div>
+              {idx_lines}
+            </div>
+            <div>
+              <div style="font-size:11px;font-weight:600;color:#9ca3af;margin-bottom:4px">高开/低开统计</div>
+              <div style="display:flex;gap:12px;font-size:12px">
+                <span style="color:#ef4444">高开 {gap_up_cnt}</span>
+                <span style="color:#22c55e">低开 {gap_down_cnt}</span>
+                <span style="color:#9ca3af">平开 {flat_cnt}</span>
+              </div>
+              <div style="font-size:11px;font-weight:600;color:#9ca3af;margin:6px 0 4px">TOP5高开股</div>
+              {top5_lines}
+            </div>
+          </div>
+        </div>
+      </div>
+
+'''
+
+    # 注入点：us-rt-time div结束后
+    marker = '<div class="us-rt-time">'
+    pos = html.find(marker)
+    if pos == -1:
+        log(f"  ⚠️ a-shares.html 中找不到 us-rt-time，跳过竞价注入")
+        return
+    end_div = html.find('</div>', pos)
+    if end_div == -1:
+        log(f"  ⚠️ a-shares.html 中 us-rt-time 无闭合标签")
+        return
+    insert_pos = end_div + len('</div>')
+    html = html[:insert_pos] + '\n' + auction_block + html[insert_pos:]
+    
+    with open(A_SHARES_HTML, 'w', encoding='utf-8') as f:
+        f.write(html)
+    log(f"  ✅ 竞价数据已注入 a-shares.html")
+
+
 def inject_tail_change(html, tail_data, evening_data):
     """将尾盘异动数据注入A股Tab（在市场脉搏之后）"""
     from datetime import datetime as _dt
@@ -3068,6 +3176,9 @@ def mode_auction():
     
     html = inject_auction(html, auction_d)
     
+    # 同时注入竞价数据到独立a-shares.html页面（iframe加载用）
+    inject_auction_into_a_shares_page(auction_d)
+    
     # 更新页面日期
     html = update_page_dates(html, 'auction', a_ok=True)
     
@@ -3088,7 +3199,7 @@ def mode_auction():
     # 6. 推送
     log("--- 4. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: auction {TODAY}{val_suffix}"
     )
 
