@@ -2946,26 +2946,29 @@ def mode_noon():
     write_a_shares_page(a_d, a_sp)
     log("  A股数据注入完成")
 
-    # --- 补充注入集合竞价数据（如果存在）---
-    if os.path.exists(AUCTION_DATA):
-        log("  --- 补充注入集合竞价数据 ---")
-        auction_d = load_json(AUCTION_DATA)
-        html = inject_auction(html, auction_d)
+    # --- 在 a-shares.html 上处理竞价/尾盘区块（iframe架构）---
+    if os.path.exists(A_SHARES_HTML):
+        with open(A_SHARES_HTML, 'r', encoding='utf-8') as _f:
+            a_html = _f.read()
+        _modified = False
+        for _blk_id in ['auction-block', 'tail-change-block']:
+            _s = a_html.find(f'<div id="{_blk_id}"')
+            if _s != -1:
+                _d, _p = 0, _s
+                while _p < len(a_html):
+                    if a_html[_p:_p+4] == '<div': _d += 1
+                    elif a_html[_p:_p+6] == '</div>':
+                        _d -= 1
+                        if _d == 0:
+                            a_html = a_html[:_s] + a_html[_p+6:]
+                            log(f"  已从 a-shares.html 移除 {_blk_id}（盘中不展示）")
+                            _modified = True
+                            break
+                    _p += 1
+        if _modified:
+            with open(A_SHARES_HTML, 'w', encoding='utf-8') as _f:
+                _f.write(a_html)
 
-    # --- 中午移除竞价和尾盘区块（盘中两个都不展示）---
-    for _blk_id in ['auction-block', 'tail-change-block']:
-        _s = html.find(f'<div id="{_blk_id}"')
-        if _s != -1:
-            _d, _p = 0, _s
-            while _p < len(html):
-                if html[_p:_p+4] == '<div': _d += 1
-                elif html[_p:_p+6] == '</div>':
-                    _d -= 1
-                    if _d == 0:
-                        html = html[:_s] + html[_p+6:]
-                        log(f"  已移除 {_blk_id}（盘中不展示）")
-                        break
-                _p += 1
 
     # 更新页面日期（只刷全局+A股，美股日期不动）
     html = update_page_dates(html, 'noon', a_ok=a_ok)
@@ -3051,46 +3054,18 @@ def mode_evening():
     log("--- 2.5 更新成交额历史 ---")
     update_volume_history()
 
-    # --- 收盘后移除旧的集合竞价区块（已过15:00，竞价不再展示）---
-    _auc_start = html.find('<div id="auction-block"')
-    if _auc_start != -1:
-        _depth, _pos = 0, _auc_start
-        while _pos < len(html):
-            if html[_pos:_pos+4] == '<div': _depth += 1
-            elif html[_pos:_pos+6] == '</div>':
-                _depth -= 1
-                if _depth == 0:
-                    _auc_end = _pos + 6
-                    html = html[:_auc_start] + html[_auc_end:]
-                    log("  已移除旧的集合竞价区块（收盘后不展示）")
-                    break
-            _pos += 1
-
-    # --- 注入尾盘异动数据（如果有14:45快照）---
-    if os.path.exists(TAIL_SNAPSHOT):
-        log("  --- 计算尾盘异动 ---")
-        tail_d = load_json(TAIL_SNAPSHOT)
-        # 移除旧的 tail-change-block（如果有）
-        tail_start = html.find('<div id="tail-change-block"')
-        if tail_start != -1:
-            depth = 0
-            pos = tail_start
-            while pos < len(html):
-                if html[pos:pos+4] == '<div':
-                    depth += 1
-                elif html[pos:pos+6] == '</div>':
-                    depth -= 1
-                    if depth == 0:
-                        tail_end = pos + 6
-                        while tail_end < len(html) and html[tail_end] in ' \n':
-                            tail_end += 1
-                        html = html[:tail_start] + html[tail_end:]
-                        log("  已移除旧的尾盘异动区块")
-                        break
-                pos += 1
-        html = inject_tail_change(html, tail_d, a_d)
-    else:
-        log("  ℹ️ 无尾盘快照（tail_snapshot.json不存在），跳过尾盘异动")
+    # --- 在 a-shares.html 上注入尾盘异动（iframe架构，数据在a-shares.html上）---
+    if os.path.exists(A_SHARES_HTML):
+        with open(A_SHARES_HTML, 'r', encoding='utf-8') as _f:
+            a_html = _f.read()
+        if os.path.exists(TAIL_SNAPSHOT):
+            log("  --- 计算尾盘异动 ---")
+            tail_d = load_json(TAIL_SNAPSHOT)
+            a_html = inject_tail_change(a_html, tail_d, a_d)
+        else:
+            log("  ℹ️ 无尾盘快照（tail_snapshot.json不存在），跳过尾盘异动")
+        with open(A_SHARES_HTML, 'w', encoding='utf-8') as _f:
+            _f.write(a_html)
 
     # 更新页面日期（只刷全局+A股，美股日期不动）
     html = update_page_dates(html, 'evening', a_ok=a_ok)
@@ -3292,48 +3267,56 @@ def mode_postmarket():
     if not freshness_results.get('dragon_tiger', {}).get('fresh', False):
         log("⚠️ 龙虎榜数据过旧，仍然注入但请注意")
 
-    # 2. 注入HTML
-    log("--- 2. 注入复盘数据到 HTML ---")
+    # 2. 注入HTML（iframe架构：重新生成a-shares.html，在其上追加复盘数据）
+    log("--- 2. 注入复盘数据到 a-shares.html ---")
+
+    # 重新生成基础 a-shares.html（使用最新A股数据）
+    a_d = load_json(A_DATA) if os.path.exists(A_DATA) else None
+    a_sp = load_json(A_SPARK) if os.path.exists(A_SPARK) else {'stocks': {}}
+    if a_d:
+        write_a_shares_page(a_d, a_sp)
+
+    # 在 a-shares.html 上注入复盘数据
+    if os.path.exists(A_SHARES_HTML):
+        with open(A_SHARES_HTML, 'r', encoding='utf-8') as _f:
+            a_html = _f.read()
+
+        # 移除旧的复盘区块（如果有）
+        pm_start = a_html.find('<div id="a-postmarket"')
+        if pm_start != -1:
+            next_section = a_html.find('class="section-divider"', pm_start + 10)
+            if next_section != -1:
+                section_start = a_html.rfind('<div', 0, next_section)
+                if section_start > pm_start + 100:
+                    end_pos = a_html.rfind('\n', pm_start, next_section)
+                    a_html = a_html[:pm_start] + a_html[end_pos:]
+                    log("  已移除旧的复盘区块")
+
+        inject_data = {}
+        if has_margin:
+            inject_data['margin'] = margin
+        if has_dragon:
+            inject_data['dragon_tiger'] = dragon
+
+        a_html = inject_post_market(a_html, inject_data)
+
+        with open(A_SHARES_HTML, 'w', encoding='utf-8') as _f:
+            _f.write(a_html)
+        log(f"  a-shares.html 已保存 ({len(a_html):,} chars)")
+
+    # 注：北向资金刷新已移至 northbound 模式（18:00独立执行）
+
+    # 更新页面日期（index.html 的全局日期仍需更新）
     with open(INDEX_HTML, 'r', encoding='utf-8') as f:
         html = f.read()
-    
-    # 先移除旧的复盘区块（如果有）
-    pm_start = html.find('<div id="a-postmarket"')
-    if pm_start != -1:
-        # 找到 section 的结束
-        next_section = html.find('class="section-divider"', pm_start + 10)
-        if next_section != -1:
-            section_start = html.rfind('<div', 0, next_section)
-            # 如果这个section-divider是在复盘区块外面的，就用它作为结束标记
-            # 否则继续找
-            if section_start > pm_start + 100:  # 复盘区块内不可能有另一个section-divider
-                # 移除从 a-postmarket 到这个 section-divider 之间的内容
-                end_pos = html.rfind('\n', pm_start, next_section)
-                html = html[:pm_start] + html[end_pos:]
-                log("  已移除旧的复盘区块")
-    
-    # 注入新数据
-    inject_data = {}
-    if has_margin:
-        inject_data['margin'] = margin
-    if has_dragon:
-        inject_data['dragon_tiger'] = dragon
-    
-    html = inject_post_market(html, inject_data)
-    
-    # 注：北向资金刷新已移至 northbound 模式（18:00独立执行）
-    
-    # 更新页面日期
     html = update_page_dates(html, 'postmarket', a_ok=True)
-    
-    # 更新A股Tab时间戳（盘后数据属于A股Tab）
     pm_fetch_time = pm_d.get('fetch_time', pm_d.get('margin', {}).get('fetch_time'))
     if pm_fetch_time:
         html = update_tab_timestamp(html, 'a_shares', pm_fetch_time)
-    
     with open(INDEX_HTML, 'w', encoding='utf-8') as f:
         f.write(html)
-    log(f"  HTML 已保存 ({len(html):,} chars)")
+    log(f"  index.html 已保存 ({len(html):,} chars)")
+
     
     # 3. 图表序列增量更新
     run_series_update()
@@ -3348,7 +3331,7 @@ def mode_postmarket():
     # 6. 推送
     log("--- 4. 推送到 GitHub ---")
     github_push(
-        [INDEX_HTML, SW_JS],
+        [INDEX_HTML, A_SHARES_HTML, SW_JS],
         f"auto update: postmarket {TODAY}{val_suffix}"
     )
 
