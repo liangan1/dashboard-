@@ -1,5 +1,5 @@
 // 美债看板 PWA Service Worker
-const CACHE_NAME = 'treasury-dashboard-postmarket-20260910-1839';
+const CACHE_NAME = 'treasury-dashboard-northbound-20260910-1840';
 const OFFLINE_URL = './index.html';
 
 self.addEventListener('install', (event) => {
